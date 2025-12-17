@@ -36,6 +36,8 @@ services:
         condition: service_healthy
     ports:
       - ${APP_LOCAL_PORT}:${APP_SERVER_PORT}
+    env_file:
+        - ./.env
 
 volumes:
   mysql_data:
