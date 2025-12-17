@@ -25,9 +25,15 @@ repositories {
 }
 
 dependencies {
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
+
+    // tool
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.14")
+
+    // test
     testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
