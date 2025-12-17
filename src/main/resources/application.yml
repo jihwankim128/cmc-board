@@ -2,9 +2,8 @@ spring:
   config:
     import:
       - optional:file:.env[.properties]
-app:
-  server:
-    url: ${APP_SERVER_URL}
+      - classpath:/config/app.yml
+      - classpath:/config/database.yml
 
 logging:
   level:

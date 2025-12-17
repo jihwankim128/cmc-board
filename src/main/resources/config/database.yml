@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:${DB_TYPE:mysql}://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:board-service}?${DB_PARAMS}
+    username: ${DB_USERNAME:board-admin}
+    password: ${DB_PASSWORD:12345678a!}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:none}
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    properties:
+      hibernate:
+        default_batch_fetch_size: ${JPA_BATCH_FETCH_SIZE:100}
+        format_sql: ${JPA_FORMAT_SQL:false}
+        show_sql: ${JPA_SHOW_SQL:false}
+    open-in-view: false
