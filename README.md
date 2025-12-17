@@ -32,6 +32,7 @@
 ### Database
 * MySQL 8.0: 게시글 Content 용도인 Json 지원
 * QueryDSL: 타입 안정성 & 카테고리 별 조회 등 동적 쿼리
+  * Spring Data Jpa 4.x 부터 OpenFeign QueryDSL 지원
 
 ### DevOps
 * Docker & Docker Compose: 환경 일관성
