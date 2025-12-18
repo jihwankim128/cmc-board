@@ -1,4 +1,4 @@
-package com.cmc.global.core.docs;
+package com.cmc.global.docs;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
