@@ -30,6 +30,7 @@ val querydslVersion = "7.1"
 dependencies {
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-webmvc")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     // Database
