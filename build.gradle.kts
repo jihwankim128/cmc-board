@@ -1,5 +1,6 @@
 plugins {
     java
+    jacoco
     id("org.springframework.boot") version "4.0.0"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -51,4 +52,67 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+// Jacoco Test Coverage
+jacoco {
+    toolVersion = "0.8.14"
+}
+
+// 커버리지 제외 항목들 추가
+val exclusionPattern = listOf(
+    "**/CmcApplication.class",
+    "**/global/**",
+    "**/Q[^Q]*.class"
+)
+
+fun createFilteredClassDirectories(): ConfigurableFileCollection {
+    return files(
+        sourceSets.main.get().output.classesDirs.files.map { dirPath ->
+            fileTree(dirPath) {
+                exclude(exclusionPattern)
+            }
+        }
+    )
+}
+
+tasks.jacocoTestReport {
+    classDirectories.setFrom(createFilteredClassDirectories())
+
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir("reports/jacoco/html")
+    }
+
+    dependsOn(tasks.test)
+    finalizedBy(tasks.jacocoTestCoverageVerification)
+}
+
+tasks.jacocoTestCoverageVerification {
+    classDirectories.setFrom(createFilteredClassDirectories())
+
+    violationRules {
+        rule {
+            element = "CLASS"
+
+            limit {
+                counter = "LINE"
+                value = "COVEREDRATIO"
+                minimum = 0.90.toBigDecimal()
+            }
+
+            limit {
+                counter = "BRANCH"
+                value = "COVEREDRATIO"
+                minimum = 0.90.toBigDecimal()
+            }
+
+            limit {
+                counter = "METHOD"
+                value = "COVEREDRATIO"
+                minimum = 0.90.toBigDecimal()
+            }
+        }
+    }
 }
