@@ -8,4 +8,8 @@ public class BadRequestException extends BaseException {
     public BadRequestException(StatusCode status) {
         super(status);
     }
+
+    public BadRequestException(StatusCode status, Object... args) {
+        super(status, args);
+    }
 }
