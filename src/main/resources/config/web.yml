@@ -1,0 +1,5 @@
+spring:
+  messages:
+    encoding: UTF-8
+    fallback-to-system-locale: false
+    cache-duration: PT30M
