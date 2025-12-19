@@ -24,14 +24,8 @@ public class WebInterceptor implements HandlerInterceptor {
             return;
         }
 
-        int status = response.getStatus();
-        if (status == 404) {
-            return;
-        }
-
-        String uri = request.getRequestURI();
         String responseBody = new String(wrapper.getContentAsByteArray(), StandardCharsets.UTF_8);
-        captureLog(status, uri, responseBody);
+        captureLog(response.getStatus(), request.getRequestURI(), responseBody);
 
         HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
