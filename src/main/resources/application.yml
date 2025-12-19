@@ -4,6 +4,7 @@ spring:
       - optional:file:.env[.properties]
       - classpath:/config/app.yml
       - classpath:/config/database.yml
+      - classpath:/config/web.yml
 
 logging:
   level:
