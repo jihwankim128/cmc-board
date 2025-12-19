@@ -1,4 +1,4 @@
-package com.cmc.global.web.util;
+package com.cmc.global.web.message;
 
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class MessageSourceUtil {
+public class MessageSourceHelper {
 
     private final MessageSource messageSource;
 

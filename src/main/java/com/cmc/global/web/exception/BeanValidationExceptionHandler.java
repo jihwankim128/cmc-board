@@ -8,7 +8,7 @@ import static com.cmc.global.web.constants.BeanValidationConstants.REQUEST_PARAM
 
 import com.cmc.global.common.dto.ErrorDetail;
 import com.cmc.global.common.dto.ErrorResponse;
-import com.cmc.global.web.util.MessageSourceUtil;
+import com.cmc.global.web.message.MessageSourceHelper;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,13 +26,13 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RequiredArgsConstructor
 public class BeanValidationExceptionHandler {
 
-    private final MessageSourceUtil messageSourceUtil;
+    private final MessageSourceHelper messageSourceHelper;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException e) {
         ErrorResponse response = ErrorResponse.of(
                 REQUEST_FIELD_NOT_VALID.name(),
-                messageSourceUtil.extractMessage(REQUEST_FIELD_NOT_VALID.getMessageKey()),
+                messageSourceHelper.extractMessage(REQUEST_FIELD_NOT_VALID.getMessageKey()),
                 e.getBindingResult().getFieldErrors().stream()
                         .map(fieldError -> new ErrorDetail(fieldError.getField(), fieldError.getDefaultMessage()))
                         .toList()
@@ -52,7 +52,7 @@ public class BeanValidationExceptionHandler {
 
         ErrorResponse response = ErrorResponse.of(
                 REQUEST_PARAM_NOT_VALID.name(),
-                messageSourceUtil.extractMessage(REQUEST_PARAM_NOT_VALID.getMessageKey()),
+                messageSourceHelper.extractMessage(REQUEST_PARAM_NOT_VALID.getMessageKey()),
                 details
         );
         return ResponseEntity.badRequest().body(response);
@@ -62,7 +62,7 @@ public class BeanValidationExceptionHandler {
     public ResponseEntity<ErrorResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException e) {
         ErrorResponse response = ErrorResponse.of(
                 REQUEST_NOT_READABLE.name(),
-                messageSourceUtil.extractMessage(REQUEST_NOT_READABLE.getMessageKey())
+                messageSourceHelper.extractMessage(REQUEST_NOT_READABLE.getMessageKey())
         );
         return ResponseEntity.badRequest().body(response);
     }
@@ -71,7 +71,7 @@ public class BeanValidationExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException e) {
         log.error("{}, {}, {}, {}", e.getValue(), e.getParameter().getParameterName(), e.getPropertyName(),
                 e.getMessage());
-        String detailMessage = messageSourceUtil.extractMessage(
+        String detailMessage = messageSourceHelper.extractMessage(
                 "parameter.type.mismatch",
                 e.getParameter().getParameterName(),
                 e.getParameter().getParameterType().getSimpleName(),
@@ -79,7 +79,7 @@ public class BeanValidationExceptionHandler {
         );
         ErrorResponse response = ErrorResponse.of(
                 METHOD_ARGUMENT_TYPE_MISMATCH.name(),
-                messageSourceUtil.extractMessage(METHOD_ARGUMENT_TYPE_MISMATCH.getMessageKey()),
+                messageSourceHelper.extractMessage(METHOD_ARGUMENT_TYPE_MISMATCH.getMessageKey()),
                 List.of(new ErrorDetail(e.getName(), detailMessage))
         );
         return ResponseEntity.badRequest().body(response);
@@ -87,14 +87,14 @@ public class BeanValidationExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ResponseEntity<ErrorResponse> handleMissingRequestParameter(MissingServletRequestParameterException e) {
-        String detailMessage = messageSourceUtil.extractMessage(
+        String detailMessage = messageSourceHelper.extractMessage(
                 "parameter.type.missing",
                 e.getParameterName(),
                 e.getParameterType()
         );
         ErrorResponse response = ErrorResponse.of(
                 MISSING_REQUEST_PARAMETER.name(),
-                messageSourceUtil.extractMessage(MISSING_REQUEST_PARAMETER.getMessageKey()),
+                messageSourceHelper.extractMessage(MISSING_REQUEST_PARAMETER.getMessageKey()),
                 List.of(new ErrorDetail(e.getParameterName(), detailMessage))
         );
         return ResponseEntity.badRequest().body(response);
