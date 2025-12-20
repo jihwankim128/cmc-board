@@ -1,8 +1,11 @@
 package com.cmc.global.docs;
 
+import com.cmc.global.auth.AdminPrincipal;
+import com.cmc.global.auth.UserPrincipal;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.customizers.ParameterCustomizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +23,17 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(generateInfo())
                 .addServersItem(generateServer());
+    }
+
+    @Bean
+    public ParameterCustomizer parameterCustomizer() {
+        return (parameterModel, methodParameter) -> {
+            if (methodParameter.hasParameterAnnotation(UserPrincipal.class) ||
+                    methodParameter.hasParameterAnnotation(AdminPrincipal.class)) {
+                return null;
+            }
+            return parameterModel;
+        };
     }
 
     private Server generateServer() {
