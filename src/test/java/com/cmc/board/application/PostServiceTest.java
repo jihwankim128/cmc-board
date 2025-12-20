@@ -35,7 +35,7 @@ class PostServiceTest {
     @Test
     void 게시글_생성시_없는_카테고리_정보라면_예외가_발생한다() {
         // given
-        when(validateCategoryPort.existsCategory(anyLong())).thenReturn(false);
+        when(validateCategoryPort.existsById(anyLong())).thenReturn(false);
 
         // when & then
         assertThatThrownBy(() -> postService.create(createCommand))
@@ -46,7 +46,7 @@ class PostServiceTest {
     @Test
     void 게시글_생성_커맨드가_주어지면_게시글을_생성하고_저장한다() {
         // given
-        when(validateCategoryPort.existsCategory(anyLong())).thenReturn(true);
+        when(validateCategoryPort.existsById(anyLong())).thenReturn(true);
         Post mockPost = mock(Post.class);
         when(mockPost.getId()).thenReturn(1L);
         when(postRepository.save(any(Post.class))).thenReturn(mockPost);

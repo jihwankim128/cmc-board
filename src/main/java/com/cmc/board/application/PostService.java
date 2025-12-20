@@ -26,7 +26,7 @@ public class PostService implements CreatePostUseCase {
     }
 
     private void validateExistCategory(CreatePostCommand command) {
-        if (!validateCategoryPort.existsCategory(command.categoryId())) {
+        if (!validateCategoryPort.existsById(command.categoryId())) {
             throw new NotFoundException(PostExceptionStatus.NOT_FOUND_CATEGORY);
         }
     }

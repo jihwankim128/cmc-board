@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record CreatePostDto(
         @NotNull Long categoryId,
-        @NotEmpty(message = "{post.title.empty}") String title,
-        @NotEmpty(message = "{post.content.empty}") String content
+        @NotEmpty(message = "{post.title.blank}") String title,
+        @NotEmpty(message = "{post.content.blank}") String content
 ) {
     public CreatePostCommand toCommand(Long authorId) {
         return new CreatePostCommand(authorId, categoryId, title, content);

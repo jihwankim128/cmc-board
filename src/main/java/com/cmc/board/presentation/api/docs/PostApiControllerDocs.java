@@ -17,7 +17,13 @@ public interface PostApiControllerDocs {
     @ApiResponse(responseCode = "200", description = "CREATE_POST_SUCCESS")
     @ApiResponse(
             responseCode = "400",
-            description = "",
+            description = """
+                        POST_TITLE_BLANK: 게시글 제목이 빈 경우
+                        POST_TITLE_TOO_LONG: 게시글 제목 길이 초과
+                        POST_CONTENT_BLANK: 게시글 내용이 빈 경우
+                        POST_CONTENT_TOO_SHORT: 게시글 내용 길이 부족
+                        NOT_FOUND_CATEGORY: 선택 카테고리가 없는 경우
+                    """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
     CommonResponse<Long> create(CreatePostDto dto);
