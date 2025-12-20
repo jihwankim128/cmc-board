@@ -1,8 +1,8 @@
 package com.cmc.board.presentation.api.docs;
 
-import com.cmc.board.presentation.api.dto.category.CategoryDto;
 import com.cmc.board.presentation.api.dto.category.CreateCategoryDto;
 import com.cmc.board.presentation.api.dto.category.UpdateCategoryDto;
+import com.cmc.board.presentation.query.dto.CategoryDto;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.common.dto.ErrorResponse;
 import com.cmc.global.docs.CommonDocs;
