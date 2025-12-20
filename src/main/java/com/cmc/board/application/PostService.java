@@ -6,12 +6,12 @@ import com.cmc.board.application.port.in.UpdatePostUseCase;
 import com.cmc.board.application.port.in.command.CreatePostCommand;
 import com.cmc.board.application.port.in.command.UpdatePostCommand;
 import com.cmc.board.application.port.out.ValidateCategoryPort;
-import com.cmc.board.domain.constants.PostExceptionStatus;
+import com.cmc.board.domain.exception.CategoryNotFoundException;
+import com.cmc.board.domain.exception.PostNotFoundException;
 import com.cmc.board.domain.post.Post;
 import com.cmc.board.domain.post.PostRepository;
 import com.cmc.board.domain.post.vo.PostContent;
 import com.cmc.board.domain.post.vo.PostTitle;
-import com.cmc.global.common.exception.client.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +37,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, Delete
         validateExistCategory(command.categoryId());
         postRepository.findById(command.postId())
                 .ifPresentOrElse(post -> update(command, post), () -> {
-                    throw new NotFoundException(PostExceptionStatus.NOT_FOUND_POST);
+                    throw new PostNotFoundException();
                 });
     }
 
@@ -48,7 +48,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, Delete
                     post.delete(userId);
                     postRepository.save(post);
                 }, () -> {
-                    throw new NotFoundException(PostExceptionStatus.NOT_FOUND_POST);
+                    throw new PostNotFoundException();
                 });
     }
 
@@ -64,7 +64,7 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase, Delete
 
     private void validateExistCategory(Long categoryId) {
         if (!validateCategoryPort.existsById(categoryId)) {
-            throw new NotFoundException(PostExceptionStatus.NOT_FOUND_CATEGORY);
+            throw new CategoryNotFoundException();
         }
     }
 }

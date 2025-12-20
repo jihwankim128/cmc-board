@@ -24,8 +24,7 @@ public class PostMessageMapper implements MessageKeyMapper {
                 entry(PostExceptionStatus.POST_TITLE_TOO_LONG, "post.title.tooLong"),
                 entry(PostExceptionStatus.POST_CONTENT_TOO_SHORT, "post.content.tooShort"),
                 entry(PostExceptionStatus.MISMATCH_POST_AUTHOR, "post.author.mismatch"),
-                entry(PostExceptionStatus.NOT_FOUND_CATEGORY, "post.category.notFound"),
-                entry(PostExceptionStatus.NOT_FOUND_POST, "post.not.found")
+                entry(PostExceptionStatus.POST_NOT_FOUND, "post.not.found")
         );
     }
 }

@@ -6,9 +6,8 @@ import com.cmc.board.application.port.in.command.UpdateCategoryCommand;
 import com.cmc.board.domain.category.Category;
 import com.cmc.board.domain.category.CategoryRepository;
 import com.cmc.board.domain.category.vo.CategoryName;
-import com.cmc.board.domain.constants.CategoryExceptionStatus;
-import com.cmc.global.common.exception.client.BadRequestException;
-import com.cmc.global.common.exception.client.NotFoundException;
+import com.cmc.board.domain.exception.CategoryNotFoundException;
+import com.cmc.board.domain.exception.DuplicatedCategoryException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,18 +38,18 @@ public class CategoryService implements CreateCategoryUseCase, UpdateCategoryUse
 
     private Category getOrElseThrow(UpdateCategoryCommand command) {
         return categoryRepository.findById(command.id())
-                .orElseThrow(() -> new NotFoundException(CategoryExceptionStatus.CATEGORY_NOT_FOUND));
+                .orElseThrow(CategoryNotFoundException::new);
     }
 
     private void validateDuplicate(String name, Long id) {
         if (categoryRepository.existsByNameExcludeId(name, id)) {
-            throw new BadRequestException(CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
+            throw new DuplicatedCategoryException();
         }
     }
 
     private void validateDuplicate(String name) {
         if (categoryRepository.existsByName(name)) {
-            throw new BadRequestException(CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
+            throw new DuplicatedCategoryException();
         }
     }
 }

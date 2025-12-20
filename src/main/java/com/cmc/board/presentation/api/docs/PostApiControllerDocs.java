@@ -28,7 +28,7 @@ public interface PostApiControllerDocs {
     @ApiResponse(
             responseCode = "404",
             description = """
-                        NOT_FOUND_CATEGORY: 선택 카테고리가 없는 경우
+                        CATEGORY_NOT_FOUND: 선택 카테고리가 없는 경우
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
@@ -55,8 +55,8 @@ public interface PostApiControllerDocs {
     @ApiResponse(
             responseCode = "404",
             description = """
-                        NOT_FOUND_CATEGORY: 선택 카테고리가 없는 경우
-                        NOT_FOUND_POST: 게시글이 없는 경우
+                        CATEGORY_NOT_FOUND: 선택 카테고리가 없는 경우
+                        POST_NOT_FOUND: 게시글이 없는 경우
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
@@ -74,7 +74,7 @@ public interface PostApiControllerDocs {
     @ApiResponse(
             responseCode = "404",
             description = """
-                        NOT_FOUND_POST: 게시글이 없는 경우
+                        POST_NOT_FOUND: 게시글이 없는 경우
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
