@@ -4,6 +4,7 @@ import com.cmc.board.domain.post.Post;
 import com.cmc.board.domain.post.PostRepository;
 import com.cmc.board.infrastructure.database.jpa.PostJpaRepository;
 import com.cmc.board.infrastructure.database.jpa.entity.PostEntity;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -17,5 +18,11 @@ public class PostRepositoryImpl implements PostRepository {
     public Post save(Post post) {
         PostEntity savedEntity = jpaRepository.save(PostEntity.from(post));
         return savedEntity.toDomain();
+    }
+
+    @Override
+    public Optional<Post> findById(Long postId) {
+        return jpaRepository.findById(postId)
+                .map(PostEntity::toDomain);
     }
 }

@@ -1,5 +1,7 @@
 package com.cmc.board.presentation.message;
 
+import static java.util.Map.entry;
+
 import com.cmc.board.domain.constants.PostExceptionStatus;
 import com.cmc.board.presentation.api.status.PostSuccessStatus;
 import com.cmc.global.common.interfaces.StatusCode;
@@ -11,14 +13,19 @@ import org.springframework.stereotype.Component;
 public class PostMessageMapper implements MessageKeyMapper {
     @Override
     public Map<StatusCode, String> getMessageKeys() {
-        return Map.of(
-                PostSuccessStatus.CREATE_POST_SUCCESS, "post.create.success",
-                PostExceptionStatus.POST_TITLE_BLANK, "post.title.blank",
-                PostExceptionStatus.POST_CONTENT_BLANK, "post.content.blank",
-                PostExceptionStatus.POST_TITLE_TOO_LONG, "post.title.tooLong",
-                PostExceptionStatus.POST_CONTENT_TOO_SHORT, "post.content.tooShort",
-                PostExceptionStatus.MISMATCH_POST_AUTHOR, "post.author.mismatch",
-                PostExceptionStatus.NOT_FOUND_CATEGORY, "post.category.notFound"
+        return Map.ofEntries(
+                entry(PostSuccessStatus.CREATE_POST_SUCCESS, "post.create.success"),
+                entry(PostSuccessStatus.UPDATE_POST_SUCCESS, "post.update.success"),
+                entry(PostSuccessStatus.DELETE_POST_SUCCESS, "post.delete.success"),
+                entry(PostSuccessStatus.GET_POSTS_SUCCESS, "post.get.posts.success"),
+
+                entry(PostExceptionStatus.POST_TITLE_BLANK, "post.title.blank"),
+                entry(PostExceptionStatus.POST_CONTENT_BLANK, "post.content.blank"),
+                entry(PostExceptionStatus.POST_TITLE_TOO_LONG, "post.title.tooLong"),
+                entry(PostExceptionStatus.POST_CONTENT_TOO_SHORT, "post.content.tooShort"),
+                entry(PostExceptionStatus.MISMATCH_POST_AUTHOR, "post.author.mismatch"),
+                entry(PostExceptionStatus.NOT_FOUND_CATEGORY, "post.category.notFound"),
+                entry(PostExceptionStatus.NOT_FOUND_POST, "post.not.found")
         );
     }
 }

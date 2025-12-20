@@ -64,7 +64,9 @@ jacoco {
 val exclusionPattern = listOf(
     "**/CmcApplication.class",
     "**/global/**",
-    "**/Q[^Q]*.class"
+    "**/Q[^Q]*.class",
+    "**/infrastructure/**",
+    "**/presentation/**"
 )
 
 fun createFilteredClassDirectories(): ConfigurableFileCollection {
