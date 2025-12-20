@@ -15,6 +15,7 @@ public class BookmarkMessageMapper implements MessageKeyMapper {
     public Map<StatusCode, String> getMessageKeys() {
         return Map.ofEntries(
                 entry(BookmarkSuccessStatus.CREATE_BOOKMARK_SUCCESS, "bookmark.create.success"),
+                entry(BookmarkSuccessStatus.GET_BOOKMARKS_SUCCESS, "bookmark.get.list.success"),
 
                 entry(BookmarkExceptionStatus.BOOKMARK_REQUIRED_POST_ID, "bookmark.required.post")
         );
