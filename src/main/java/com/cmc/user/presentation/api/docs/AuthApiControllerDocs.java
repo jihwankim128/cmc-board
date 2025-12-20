@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpSession;
 
 @Tag(name = "사용자 인증 API", description = "인증 관련 API 목록입니다.")
 public interface AuthApiControllerDocs {
@@ -39,5 +38,5 @@ public interface AuthApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Long> login(LoginDto dto, HttpSession session);
+    CommonResponse<Void> login(LoginDto dto);
 }

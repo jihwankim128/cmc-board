@@ -3,15 +3,20 @@ package com.cmc.user.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.cmc.global.common.exception.client.BadRequestException;
+import com.cmc.user.application.port.out.AuthenticationPort;
 import com.cmc.user.application.port.out.PasswordHashPort;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.UserRepository;
 import com.cmc.user.domain.constants.UserExceptionStatus;
+import com.cmc.user.domain.vo.UserRole;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +31,8 @@ class AuthServiceTest {
     private UserRepository userRepository;
     @Mock
     private PasswordHashPort passwordHashPort;
+    @Mock
+    private AuthenticationPort authenticationPort;
     @InjectMocks
     private AuthService authService;
 
@@ -87,13 +94,14 @@ class AuthServiceTest {
         User mockUser = mock(User.class);
         when(mockUser.getId()).thenReturn(1L);
         when(mockUser.getPasswordHash()).thenReturn("encodePassword");
+        when(mockUser.getRole()).thenReturn(UserRole.USER);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(mockUser));
         when(passwordHashPort.match(anyString(), anyString())).thenReturn(true);
 
         // when
-        Long result = authService.login("testuser123@example.com", "password");
+        authService.login("testuser123@example.com", "password");
 
         // then
-        assertThat(result).isEqualTo(1L);
+        verify(authenticationPort, times(1)).persistAuthentication(anyLong(), anyString());
     }
 }

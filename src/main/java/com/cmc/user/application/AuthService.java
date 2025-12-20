@@ -2,6 +2,7 @@ package com.cmc.user.application;
 
 import com.cmc.user.application.port.in.LoginUseCase;
 import com.cmc.user.application.port.in.SingupUseCase;
+import com.cmc.user.application.port.out.AuthenticationPort;
 import com.cmc.user.application.port.out.PasswordHashPort;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.UserRepository;
@@ -20,6 +21,7 @@ public class AuthService implements SingupUseCase, LoginUseCase {
 
     private final UserRepository userRepository;
     private final PasswordHashPort passwordHashPort;
+    private final AuthenticationPort authenticationPort;
 
     @Override
     public Long signup(String nickname, String email, String password) {
@@ -33,11 +35,12 @@ public class AuthService implements SingupUseCase, LoginUseCase {
     }
 
     @Override
-    public Long login(String email, String password) {
+    public void login(String email, String password) {
         User user = userRepository.findByEmail(email).orElseThrow(InvalidUserAccount::new);
         if (!passwordHashPort.match(password, user.getPasswordHash())) {
             throw new InvalidUserAccount();
         }
-        return user.getId();
+
+        authenticationPort.persistAuthentication(user.getId(), user.getRole().name());
     }
 }
