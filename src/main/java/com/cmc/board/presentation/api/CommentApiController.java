@@ -44,7 +44,7 @@ public class CommentApiController implements CommentApiControllerDocs {
         return CommonResponse.ok(result, CREATE_COMMENT_SUCCESS, message);
     }
 
-    @PostMapping("{parentId}/replies")
+    @PostMapping("{parentId}/reply")
     public CommonResponse<Long> reply(@PathVariable Long parentId, @RequestBody @Valid ReplyCommentDto dto) {
         Long authorId = 1L; // TODO: 인가 추가
         Long result = writeReplyUseCase.reply(dto.toCommand(authorId, parentId));
