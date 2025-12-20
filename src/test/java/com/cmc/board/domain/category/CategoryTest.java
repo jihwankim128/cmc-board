@@ -1,8 +1,11 @@
-package com.cmc.board.domain;
+package com.cmc.board.domain.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.cmc.board.domain.vo.info.CategoryName;
+<<<<<<< HEAD
+import com.cmc.board.domain.category.vo.CategoryName;
+=======
+>>>>>>> c2c61da (feat: add board post model)
 import org.junit.jupiter.api.Test;
 
 class CategoryTest {

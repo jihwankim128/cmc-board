@@ -11,10 +11,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.cmc.board.application.port.in.command.UpdateCategoryCommand;
-import com.cmc.board.domain.Category;
-import com.cmc.board.domain.CategoryRepository;
+import com.cmc.board.domain.category.Category;
+import com.cmc.board.domain.category.CategoryRepository;
+import com.cmc.board.domain.category.vo.CategoryName;
 import com.cmc.board.domain.constants.CategoryExceptionStatus;
-import com.cmc.board.domain.vo.info.CategoryName;
 import com.cmc.global.common.exception.client.BadRequestException;
 import com.cmc.global.common.exception.client.NotFoundException;
 import java.util.Optional;
