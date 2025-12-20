@@ -25,6 +25,22 @@ class CommentTest {
     }
 
     @Test
+    void 댓글_작성시_게시글_작성자_없으면_예외가_발생한다() {
+        // when & then
+        assertThatThrownBy(() -> Comment.create(null, postId, initialContent))
+                .isInstanceOf(BadRequestException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.COMMENT_AUTHOR_NOT_NULL);
+    }
+
+    @Test
+    void 댓글_작성시_게시글_식별자가_없으면_예외가_발생한다() {
+        // when & then
+        assertThatThrownBy(() -> Comment.create(authorId, null, initialContent))
+                .isInstanceOf(BadRequestException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.COMMENT_POST_NOT_NULL);
+    }
+
+    @Test
     void 첫_댓글_생성시_깊이는_0이다() {
         // given & when & then
         assertThat(comment.getDepth()).isEqualTo(BASE_DEPTH);

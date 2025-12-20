@@ -32,6 +32,12 @@ public class Comment {
     }
 
     public static Comment create(Long authorId, Long postId, CommentContent content) {
+        if (authorId == null) {
+            throw new BadRequestException(CommentExceptionStatus.COMMENT_AUTHOR_NOT_NULL);
+        }
+        if (postId == null) {
+            throw new BadRequestException(CommentExceptionStatus.COMMENT_POST_NOT_NULL);
+        }
         return new Comment(null, postId, null, authorId, CommentDepth.BASE_DEPTH, content);
     }
 
