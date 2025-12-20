@@ -1,11 +1,13 @@
 package com.cmc.board.domain.comment;
 
+import static com.cmc.board.domain.comment.CommentStatus.PUBLISHED;
 import static com.cmc.board.domain.comment.vo.CommentDepth.BASE_DEPTH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.cmc.board.domain.comment.vo.CommentContent;
 import com.cmc.board.domain.constants.CommentExceptionStatus;
+import com.cmc.global.common.exception.client.BadRequestException;
 import com.cmc.global.common.exception.client.ForbiddenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,5 +74,31 @@ class CommentTest {
         assertThatThrownBy(() -> comment.delete(otherUserId))
                 .isInstanceOf(ForbiddenException.class)
                 .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.MISMATCH_COMMENT_AUTHOR);
+    }
+
+    @Test
+    void 댓글에_답글을_달면_댓글보다_깊이가_증가하고_댓글의_정보를_가져온다() {
+        // given
+        Comment parent = Comment.of(1L, 1L, null, authorId, BASE_DEPTH, initialContent, PUBLISHED);
+
+        // when
+        Comment reply = Comment.reply(authorId, parent, initialContent);
+
+        // then
+        assertThat(reply.getDepth()).isEqualTo(parent.getDepth().child());
+        assertThat(reply.getPostId()).isEqualTo(parent.getPostId());
+        assertThat(reply.getParentId()).isEqualTo(parent.getId());
+    }
+
+    @Test
+    void 삭제된_댓글에_답글을_달면_예외가_발생한다() {
+        // given
+        Comment parent = Comment.of(1L, 1L, null, authorId, BASE_DEPTH, initialContent, PUBLISHED);
+        parent.delete(1L);
+
+        // when & then
+        assertThatThrownBy(() -> Comment.reply(authorId, parent, initialContent))
+                .isInstanceOf(BadRequestException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.CANNOT_REPLY_TO_DELETED_COMMENT);
     }
 }
