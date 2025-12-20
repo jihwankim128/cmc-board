@@ -22,6 +22,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public Optional<Post> findById(Long postId) {
-        return Optional.empty();
+        return jpaRepository.findById(postId)
+                .map(PostEntity::toDomain);
     }
 }
