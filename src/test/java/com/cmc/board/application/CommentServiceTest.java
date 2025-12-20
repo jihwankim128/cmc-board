@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.cmc.board.application.port.in.command.ReplyCommentCommand;
+import com.cmc.board.application.port.in.command.UpdateCommentCommand;
 import com.cmc.board.application.port.in.command.WriteCommentCommand;
 import com.cmc.board.application.port.out.ValidatePostPort;
 import com.cmc.board.domain.comment.Comment;
@@ -42,6 +43,7 @@ class CommentServiceTest {
 
     private WriteCommentCommand createCommand = new WriteCommentCommand(1L, 1L, "댓글입니다");
     private ReplyCommentCommand replyCommand = new ReplyCommentCommand(1L, 1L, 1L, "대댓글입니다");
+    private UpdateCommentCommand updateCommand = new UpdateCommentCommand(1L, 1L, "수정 댓글입니다");
 
     private Comment mockComment;
 
@@ -113,6 +115,31 @@ class CommentServiceTest {
 
         // then
         assertThat(result).isEqualTo(2L);
+        verify(commentRepository, times(1)).save(any(Comment.class));
+    }
+
+    @Test
+    void 댓글_수정시_댓글이_존재하지않으면_예외가_발생한다() {
+        // given
+        when(commentRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> commentService.update(updateCommand))
+                .isInstanceOf(CommentNotFoundException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
+    }
+
+
+    @Test
+    void 댓글_수정_커맨드가_발생하면_댓글을_수정하고_저장한다() {
+        // given
+        when(commentRepository.findById(anyLong())).thenReturn(Optional.of(mockComment));
+
+        // when
+        commentService.update(updateCommand);
+
+        // then
+        verify(mockComment, times(1)).update(anyLong(), any(CommentContent.class));
         verify(commentRepository, times(1)).save(any(Comment.class));
     }
 }
