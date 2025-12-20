@@ -1,5 +1,6 @@
 package com.cmc.board.presentation.api.docs;
 
+import com.cmc.board.presentation.api.dto.comment.ReplyCommentDto;
 import com.cmc.board.presentation.api.dto.comment.WriteCommentDto;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.common.dto.ErrorResponse;
@@ -31,4 +32,23 @@ public interface CommentApiControllerDocs {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
     CommonResponse<Long> create(WriteCommentDto dto);
+
+    @Operation(summary = "대댓글 생성", description = "대댓글을 생성합니다.")
+    @ApiResponse(responseCode = "200", description = "CREATE_REPLY_SUCCESS")
+    @ApiResponse(
+            responseCode = "400",
+            description = """
+                        COMMENT_CONTENT_BLANK: 댓글 내용이 빈 경우
+                        COMMENT_CONTENT_TOO_LONG: 댓글 내용이 최대 길이를 초과한 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @ApiResponse(
+            responseCode = "404",
+            description = """
+                        POST_NOT_FOUND: 게시글이 없는 경우
+                        COMMENT_NOT_FOUND: 부모 댓글이 없는 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @CommonDocs
+    CommonResponse<Long> reply(Long parentId, ReplyCommentDto dto);
 }

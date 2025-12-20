@@ -4,4 +4,5 @@ import com.cmc.global.common.interfaces.StatusCode;
 
 public enum CommentSuccessStatus implements StatusCode {
     CREATE_COMMENT_SUCCESS,
+    CREATE_REPLY_SUCCESS,
 }
