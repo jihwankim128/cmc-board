@@ -25,7 +25,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class AuthServiceTest {
+class AccountServiceTest {
 
     @Mock
     private UserRepository userRepository;
@@ -34,7 +34,7 @@ class AuthServiceTest {
     @Mock
     private AuthenticationPort authenticationPort;
     @InjectMocks
-    private AuthService authService;
+    private AccountService accountService;
 
     @Test
     void 이미_존재하는_계정으로_회원가입을_시도하면_예외가_발생한다() {
@@ -42,7 +42,7 @@ class AuthServiceTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(true);
 
         // when & then
-        assertThatThrownBy(() -> authService.signup("김지환", "testuser123@example.com", "password"))
+        assertThatThrownBy(() -> accountService.signup("김지환", "testuser123@example.com", "password"))
                 .isInstanceOf(BadRequestException.class)
                 .hasFieldOrPropertyWithValue("status", UserExceptionStatus.USER_ACCOUNT_DUPLICATED);
     }
@@ -57,7 +57,7 @@ class AuthServiceTest {
         when(passwordHashPort.encode(anyString())).thenReturn("encodePassword");
 
         // when
-        Long result = authService.signup("김지환", "testuser123@example.com", "password");
+        Long result = accountService.signup("김지환", "testuser123@example.com", "password");
 
         // then
         assertThat(mockUser.getId()).isEqualTo(result);
@@ -69,7 +69,7 @@ class AuthServiceTest {
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> authService.login("testuser123@example.com", "password"))
+        assertThatThrownBy(() -> accountService.login("testuser123@example.com", "password"))
                 .isInstanceOf(BadRequestException.class)
                 .hasFieldOrPropertyWithValue("status", UserExceptionStatus.USER_ACCOUNT_INVALID);
     }
@@ -83,7 +83,7 @@ class AuthServiceTest {
         when(passwordHashPort.match(anyString(), anyString())).thenReturn(false);
 
         // when & then
-        assertThatThrownBy(() -> authService.login("testuser123@example.com", "password"))
+        assertThatThrownBy(() -> accountService.login("testuser123@example.com", "password"))
                 .isInstanceOf(BadRequestException.class)
                 .hasFieldOrPropertyWithValue("status", UserExceptionStatus.USER_ACCOUNT_INVALID);
     }
@@ -99,7 +99,7 @@ class AuthServiceTest {
         when(passwordHashPort.match(anyString(), anyString())).thenReturn(true);
 
         // when
-        authService.login("testuser123@example.com", "password");
+        accountService.login("testuser123@example.com", "password");
 
         // then
         verify(authenticationPort, times(1)).persistAuthentication(anyLong(), anyString());

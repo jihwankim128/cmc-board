@@ -28,5 +28,5 @@ public interface BookmarkApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> createBookmark(CreateBookmarkDto dto);
+    CommonResponse<Void> createBookmark(CreateBookmarkDto dto, Long userId);
 }

@@ -8,6 +8,7 @@ import com.cmc.board.presentation.api.docs.BookmarkApiControllerDocs;
 import com.cmc.board.presentation.api.dto.bookmark.CreateBookmarkDto;
 import com.cmc.board.presentation.query.BookmarkQuery;
 import com.cmc.board.presentation.query.dto.BookmarkDto;
+import com.cmc.global.auth.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;
@@ -29,8 +30,7 @@ public class BookmarkApiController implements BookmarkApiControllerDocs {
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
-    public CommonResponse<Void> createBookmark(@RequestBody @Valid CreateBookmarkDto dto) {
-        Long userId = 1L;
+    public CommonResponse<Void> createBookmark(@RequestBody @Valid CreateBookmarkDto dto, @UserPrincipal Long userId) {
         createUseCase.create(dto.postId(), userId);
         String message = messageSourceHelper.extractMessage(CREATE_BOOKMARK_SUCCESS);
         return CommonResponse.noContent(CREATE_BOOKMARK_SUCCESS, message);
