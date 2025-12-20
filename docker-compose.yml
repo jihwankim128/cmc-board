@@ -5,6 +5,7 @@ services:
     image: mysql:8.0
     container_name: board-mysql
     restart: unless-stopped
+    hostname: ${DB_HOST}
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -20,7 +21,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-time-zone=+00:00
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,7 +38,7 @@ services:
     ports:
       - ${APP_LOCAL_PORT}:${APP_SERVER_PORT}
     env_file:
-        - ./.env
+      - ./.env
 
 volumes:
   mysql_data:

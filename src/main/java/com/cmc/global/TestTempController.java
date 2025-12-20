@@ -1,4 +1,4 @@
-package com.cmc.user;
+package com.cmc.global;
 
 import static com.cmc.user.presentation.api.status.UserSuccessStatus.USER_LOGIN_SUCCESS;
 
