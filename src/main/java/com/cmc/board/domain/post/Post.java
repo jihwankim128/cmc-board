@@ -4,9 +4,11 @@ import com.cmc.board.domain.constants.PostExceptionStatus;
 import com.cmc.board.domain.post.vo.PostContent;
 import com.cmc.board.domain.post.vo.PostTitle;
 import com.cmc.global.common.exception.client.UnAuthorizedException;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor(staticName = "of")
 public class Post {
     private final Long id;
     private final Long authorId;
