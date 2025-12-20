@@ -5,6 +5,7 @@ import com.cmc.user.application.port.in.SingupUseCase;
 import com.cmc.user.application.port.out.PasswordHashPort;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.UserRepository;
+import com.cmc.user.domain.exception.DuplicatedUserAccount;
 import com.cmc.user.domain.exception.InvalidUserAccount;
 import com.cmc.user.domain.vo.Email;
 import com.cmc.user.domain.vo.Nickname;
@@ -22,6 +23,9 @@ public class AuthService implements SingupUseCase, LoginUseCase {
 
     @Override
     public Long signup(String nickname, String email, String password) {
+        if (userRepository.existsByEmail(email)) {
+            throw new DuplicatedUserAccount();
+        }
         String encodedPassword = passwordHashPort.encode(password);
         User user = User.create(new Nickname(nickname), new Email(email), encodedPassword);
         User savedUser = userRepository.save(user);

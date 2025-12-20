@@ -30,10 +30,22 @@ class AuthServiceTest {
     private AuthService authService;
 
     @Test
-    void 사용자_생성_커맨드가_발생하면_사용자를_생성하고_저장한다() {
+    void 이미_존재하는_계정으로_회원가입을_시도하면_예외가_발생한다() {
+        // given
+        when(userRepository.existsByEmail(anyString())).thenReturn(true);
+
+        // when & then
+        assertThatThrownBy(() -> authService.signup("김지환", "testuser123@example.com", "password"))
+                .isInstanceOf(BadRequestException.class)
+                .hasFieldOrPropertyWithValue("status", UserExceptionStatus.USER_ACCOUNT_DUPLICATED);
+    }
+
+    @Test
+    void 회원가입_커맨드가_발생하면_사용자를_생성하고_저장한다() {
         // given
         User mockUser = mock(User.class);
         when(mockUser.getId()).thenReturn(1L);
+        when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(userRepository.save(any(User.class))).thenReturn(mockUser);
         when(passwordHashPort.encode(anyString())).thenReturn("encodePassword");
 
