@@ -2,8 +2,10 @@ package com.cmc.board.presentation.api;
 
 import static com.cmc.board.presentation.api.status.CommentSuccessStatus.CREATE_COMMENT_SUCCESS;
 import static com.cmc.board.presentation.api.status.CommentSuccessStatus.CREATE_REPLY_SUCCESS;
+import static com.cmc.board.presentation.api.status.CommentSuccessStatus.DELETE_COMMENT_SUCCESS;
 import static com.cmc.board.presentation.api.status.CommentSuccessStatus.UPDATE_COMMENT_SUCCESS;
 
+import com.cmc.board.application.port.in.DeleteCommentUseCase;
 import com.cmc.board.application.port.in.UpdateCommentUseCase;
 import com.cmc.board.application.port.in.WriteCommentUseCase;
 import com.cmc.board.application.port.in.WriteReplyUseCase;
@@ -15,6 +17,7 @@ import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,6 +33,7 @@ public class CommentApiController implements CommentApiControllerDocs {
     private final WriteCommentUseCase writeCommentUseCase;
     private final WriteReplyUseCase writeReplyUseCase;
     private final UpdateCommentUseCase updateCommentUseCase;
+    private final DeleteCommentUseCase deleteCommentUseCase;
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
@@ -54,5 +58,13 @@ public class CommentApiController implements CommentApiControllerDocs {
         updateCommentUseCase.update(dto.toCommand(commentId, authorId));
         String message = messageSourceHelper.extractMessage(UPDATE_COMMENT_SUCCESS);
         return CommonResponse.noContent(UPDATE_COMMENT_SUCCESS, message);
+    }
+
+    @DeleteMapping("/{commentId}")
+    public CommonResponse<Void> delete(@PathVariable Long commentId) {
+        Long authorId = 1L; // TODO: 인가 추가
+        deleteCommentUseCase.delete(authorId, commentId);
+        String message = messageSourceHelper.extractMessage(DELETE_COMMENT_SUCCESS);
+        return CommonResponse.noContent(DELETE_COMMENT_SUCCESS, message);
     }
 }

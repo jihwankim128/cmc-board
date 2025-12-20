@@ -17,6 +17,7 @@ public class CommentMessageMapper implements MessageKeyMapper {
                 entry(CommentSuccessStatus.CREATE_COMMENT_SUCCESS, "comment.create.success"),
                 entry(CommentSuccessStatus.CREATE_REPLY_SUCCESS, "comment.reply.create.success"),
                 entry(CommentSuccessStatus.UPDATE_COMMENT_SUCCESS, "comment.update.success"),
+                entry(CommentSuccessStatus.DELETE_COMMENT_SUCCESS, "comment.delete.success"),
 
                 entry(CommentExceptionStatus.COMMENT_AUTHOR_NOT_NULL, "comment.author.notNull"),
                 entry(CommentExceptionStatus.COMMENT_POST_NOT_NULL, "comment.post.notNull"),

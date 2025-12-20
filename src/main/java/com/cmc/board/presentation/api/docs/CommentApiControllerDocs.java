@@ -76,4 +76,21 @@ public interface CommentApiControllerDocs {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
     CommonResponse<Void> update(Long commentId, UpdateCommentDto dto);
+
+    @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "DELETE_COMMENT_SUCCESS")
+    @ApiResponse(
+            responseCode = "401",
+            description = """
+                        MISMATCH_COMMENT_AUTHOR: 작성자가 아닌 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @ApiResponse(
+            responseCode = "404",
+            description = """
+                        COMMENT_NOT_FOUND: 댓글이 없는 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @CommonDocs
+    CommonResponse<Void> delete(Long commentId);
 }
