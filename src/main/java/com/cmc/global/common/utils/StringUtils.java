@@ -16,4 +16,8 @@ public final class StringUtils {
     public static boolean isUnderMin(String value, int limit) {
         return !isBlank(value) && value.length() < limit;
     }
+
+    public static boolean isOutOfRange(String value, int minLimit, int maxLimit) {
+        return !isBlank(value) && (value.length() < minLimit || value.length() > maxLimit);
+    }
 }
