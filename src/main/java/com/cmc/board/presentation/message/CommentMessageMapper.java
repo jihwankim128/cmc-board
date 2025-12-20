@@ -3,6 +3,7 @@ package com.cmc.board.presentation.message;
 import static java.util.Map.entry;
 
 import com.cmc.board.domain.constants.CommentExceptionStatus;
+import com.cmc.board.presentation.api.status.CommentSuccessStatus;
 import com.cmc.global.common.interfaces.StatusCode;
 import com.cmc.global.web.message.MessageKeyMapper;
 import java.util.Map;
@@ -13,6 +14,10 @@ public class CommentMessageMapper implements MessageKeyMapper {
     @Override
     public Map<StatusCode, String> getMessageKeys() {
         return Map.ofEntries(
+                entry(CommentSuccessStatus.CREATE_COMMENT_SUCCESS, "comment.create.success"),
+                entry(CommentSuccessStatus.CREATE_REPLY_SUCCESS, "comment.reply.create.success"),
+                entry(CommentSuccessStatus.UPDATE_COMMENT_SUCCESS, "comment.update.success"),
+
                 entry(CommentExceptionStatus.COMMENT_AUTHOR_NOT_NULL, "comment.author.notNull"),
                 entry(CommentExceptionStatus.COMMENT_POST_NOT_NULL, "comment.post.notNull"),
                 entry(CommentExceptionStatus.COMMENT_CONTENT_BLANK, "comment.content.blank"),
