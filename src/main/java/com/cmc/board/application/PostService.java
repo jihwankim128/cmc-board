@@ -1,6 +1,7 @@
 package com.cmc.board.application;
 
 import com.cmc.board.application.port.in.CreatePostUseCase;
+import com.cmc.board.application.port.in.DeletePostUseCase;
 import com.cmc.board.application.port.in.UpdatePostUseCase;
 import com.cmc.board.application.port.in.command.CreatePostCommand;
 import com.cmc.board.application.port.in.command.UpdatePostCommand;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PostService implements CreatePostUseCase, UpdatePostUseCase {
+public class PostService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase {
 
     private final ValidateCategoryPort validateCategoryPort;
     private final PostRepository postRepository;
@@ -34,6 +35,17 @@ public class PostService implements CreatePostUseCase, UpdatePostUseCase {
         validateExistCategory(command.categoryId());
         postRepository.findById(command.postId())
                 .ifPresentOrElse(post -> update(command, post), () -> {
+                    throw new NotFoundException(PostExceptionStatus.NOT_FOUND_POST);
+                });
+    }
+
+    @Override
+    public void delete(Long userId, Long postId) {
+        postRepository.findById(postId)
+                .ifPresentOrElse(post -> {
+                    post.delete(userId);
+                    postRepository.save(post);
+                }, () -> {
                     throw new NotFoundException(PostExceptionStatus.NOT_FOUND_POST);
                 });
     }

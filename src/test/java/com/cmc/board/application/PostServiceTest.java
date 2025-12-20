@@ -108,4 +108,28 @@ class PostServiceTest {
         verify(mockPost, times(1)).update(anyLong(), anyLong(), any(PostTitle.class), any(PostContent.class));
         verify(postRepository, times(1)).save(any(Post.class));
     }
+
+    @Test
+    void 게시글_삭제시_없는_게시글이라면_예외가_발생한다() {
+        // given
+        when(postRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> postService.delete(1L, 1L))
+                .isInstanceOf(NotFoundException.class)
+                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_POST);
+    }
+
+    @Test
+    void 게시글_삭제에_성공하면_삭제_로직처리_후_삭제된_정보를_저장한다() {
+        // given
+        when(postRepository.findById(anyLong())).thenReturn(Optional.of(mockPost));
+
+        // when & then
+        postService.delete(1L, 1L);
+
+        // then
+        verify(mockPost, times(1)).delete(anyLong());
+        verify(postRepository, times(1)).save(any(Post.class));
+    }
 }
