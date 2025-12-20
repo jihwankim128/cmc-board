@@ -1,4 +1,4 @@
-package com.cmc.board.presentation.api.dto;
+package com.cmc.board.presentation.api.dto.category;
 
 import com.cmc.board.application.port.in.command.UpdateCategoryCommand;
 import jakarta.validation.constraints.NotEmpty;

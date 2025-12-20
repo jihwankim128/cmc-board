@@ -1,4 +1,4 @@
-package com.cmc.board.presentation.api.dto;
+package com.cmc.board.presentation.api.dto.category;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
