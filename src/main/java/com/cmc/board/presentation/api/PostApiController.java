@@ -13,6 +13,7 @@ import com.cmc.board.presentation.api.dto.post.CreatePostDto;
 import com.cmc.board.presentation.api.dto.post.UpdatePostDto;
 import com.cmc.board.presentation.query.PostQuery;
 import com.cmc.board.presentation.query.dto.PostDto;
+import com.cmc.global.auth.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;
@@ -39,24 +40,23 @@ public class PostApiController implements PostApiControllerDocs {
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
-    public CommonResponse<Long> create(@RequestBody @Valid CreatePostDto dto) {
-        Long authorId = 1L; // TODO: 인가 추가
+    public CommonResponse<Long> create(@RequestBody @Valid CreatePostDto dto, @UserPrincipal Long authorId) {
         Long result = createUseCase.create(dto.toCommand(authorId));
         String message = messageSourceHelper.extractMessage(CREATE_POST_SUCCESS);
         return CommonResponse.ok(result, CREATE_POST_SUCCESS, message);
     }
 
     @PutMapping("/{postId}")
-    public CommonResponse<Void> update(@PathVariable Long postId, @RequestBody @Valid UpdatePostDto dto) {
-        Long authorId = 1L;
+    public CommonResponse<Void> update(@PathVariable Long postId,
+                                       @RequestBody @Valid UpdatePostDto dto,
+                                       @UserPrincipal Long authorId) {
         updateUseCase.update(dto.toCommand(postId, authorId));
         String message = messageSourceHelper.extractMessage(UPDATE_POST_SUCCESS);
         return CommonResponse.noContent(UPDATE_POST_SUCCESS, message);
     }
 
     @DeleteMapping("/{postId}")
-    public CommonResponse<Void> delete(@PathVariable Long postId) {
-        Long authorId = 1L;
+    public CommonResponse<Void> delete(@PathVariable Long postId, @UserPrincipal Long authorId) {
         deleteUseCase.delete(postId, authorId);
         String message = messageSourceHelper.extractMessage(DELETE_POST_SUCCESS);
         return CommonResponse.noContent(DELETE_POST_SUCCESS, message);

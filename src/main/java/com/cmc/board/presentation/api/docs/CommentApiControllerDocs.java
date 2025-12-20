@@ -32,7 +32,7 @@ public interface CommentApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Long> create(WriteCommentDto dto);
+    CommonResponse<Long> create(WriteCommentDto dto, Long userId);
 
     @Operation(summary = "대댓글 생성", description = "대댓글을 생성합니다.")
     @ApiResponse(responseCode = "200", description = "CREATE_REPLY_SUCCESS")
@@ -51,7 +51,7 @@ public interface CommentApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Long> reply(Long parentId, ReplyCommentDto dto);
+    CommonResponse<Long> reply(Long parentId, ReplyCommentDto dto, Long authorId);
 
     @Operation(summary = "댓글 수정", description = "댓글을 수정합니다.")
     @ApiResponse(responseCode = "200", description = "UPDATE_COMMENT_SUCCESS")
@@ -75,7 +75,7 @@ public interface CommentApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> update(Long commentId, UpdateCommentDto dto);
+    CommonResponse<Void> update(Long commentId, UpdateCommentDto dto, Long authorId);
 
     @Operation(summary = "댓글 삭제", description = "댓글을 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "DELETE_COMMENT_SUCCESS")
@@ -92,5 +92,5 @@ public interface CommentApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> delete(Long commentId);
+    CommonResponse<Void> delete(Long commentId, Long authorId);
 }

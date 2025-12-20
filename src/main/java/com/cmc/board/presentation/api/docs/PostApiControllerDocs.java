@@ -32,7 +32,7 @@ public interface PostApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Long> create(CreatePostDto dto);
+    CommonResponse<Long> create(CreatePostDto dto, Long userId);
 
     @Operation(summary = "게시글 수정", description = "게시글을 수정합니다.")
     @ApiResponse(responseCode = "200", description = "UPDATE_POST_SUCCESS")
@@ -60,7 +60,7 @@ public interface PostApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> update(Long postId, UpdatePostDto dto);
+    CommonResponse<Void> update(Long postId, UpdatePostDto dto, Long authorId);
 
     @Operation(summary = "게시글 삭제", description = "게시글을 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "DELETE_POST_SUCCESS")
@@ -78,5 +78,5 @@ public interface PostApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> delete(Long postId);
+    CommonResponse<Void> delete(Long postId, Long authorId);
 }
