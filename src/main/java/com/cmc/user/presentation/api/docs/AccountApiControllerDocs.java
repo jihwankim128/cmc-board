@@ -11,8 +11,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "사용자 인증 API", description = "인증 관련 API 목록입니다.")
-public interface AuthApiControllerDocs {
+@Tag(name = "사용자 계정 API", description = "계 관련 API 목록입니다.")
+public interface AccountApiControllerDocs {
 
     @Operation(summary = "회원가입", description = "회원 가입을 진행합니다.")
     @ApiResponse(responseCode = "200", description = "USER_SIGNUP_SUCCESS")
@@ -28,8 +28,8 @@ public interface AuthApiControllerDocs {
     @CommonDocs
     CommonResponse<Long> signup(SignupDto dto);
 
-    @Operation(summary = "회원가입", description = "회원 가입을 진행합니다.")
-    @ApiResponse(responseCode = "200", description = "USER_SIGNUP_SUCCESS")
+    @Operation(summary = "로그인", description = "사용자 로그인을 진행합니다.")
+    @ApiResponse(responseCode = "200", description = "USER_LOGIN_SUCCESS")
     @ApiResponse(
             responseCode = "400",
             description = """

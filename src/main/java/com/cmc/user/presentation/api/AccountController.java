@@ -6,8 +6,8 @@ import static com.cmc.user.presentation.api.status.UserSuccessStatus.USER_SIGNUP
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import com.cmc.user.application.port.in.LoginUseCase;
-import com.cmc.user.application.port.in.SingupUseCase;
-import com.cmc.user.presentation.api.docs.AuthApiControllerDocs;
+import com.cmc.user.application.port.in.SingUpUseCase;
+import com.cmc.user.presentation.api.docs.AccountApiControllerDocs;
 import com.cmc.user.presentation.api.dto.LoginDto;
 import com.cmc.user.presentation.api.dto.SignupDto;
 import jakarta.validation.Valid;
@@ -19,15 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
-public class AuthController implements AuthApiControllerDocs {
+@RequestMapping("/account")
+public class AccountController implements AccountApiControllerDocs {
 
-    private final SingupUseCase signupUseCase;
+    private final SingUpUseCase signupUseCase;
     private final LoginUseCase loginUseCase;
     private final MessageSourceHelper messageSourceHelper;
 
     // TODO: Password 비즈니스 좀 더 명확히
-
     @PostMapping("/signup")
     public CommonResponse<Long> signup(@RequestBody @Valid SignupDto dto) {
         Long userId = signupUseCase.signup(dto.nickname(), dto.email(), dto.password());
