@@ -129,7 +129,6 @@ class CommentServiceTest {
                 .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
     }
 
-
     @Test
     void 댓글_수정_커맨드가_발생하면_댓글을_수정하고_저장한다() {
         // given
@@ -140,6 +139,30 @@ class CommentServiceTest {
 
         // then
         verify(mockComment, times(1)).update(anyLong(), any(CommentContent.class));
+        verify(commentRepository, times(1)).save(any(Comment.class));
+    }
+
+    @Test
+    void 댓글_삭제시_댓글이_존재하지않으면_예외가_발생한다() {
+        // given
+        when(commentRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        // when & then
+        assertThatThrownBy(() -> commentService.delete(1L, 1L))
+                .isInstanceOf(CommentNotFoundException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
+    }
+
+    @Test
+    void 댓글_삭제_커맨드가_발생하면_댓글을_삭제하고_저장한다() {
+        // given
+        when(commentRepository.findById(anyLong())).thenReturn(Optional.of(mockComment));
+
+        // when
+        commentService.delete(1L, 1L);
+
+        // then
+        verify(mockComment, times(1)).delete(anyLong());
         verify(commentRepository, times(1)).save(any(Comment.class));
     }
 }

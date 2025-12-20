@@ -1,5 +1,6 @@
 package com.cmc.board.application;
 
+import com.cmc.board.application.port.in.DeleteCommentUseCase;
 import com.cmc.board.application.port.in.UpdateCommentUseCase;
 import com.cmc.board.application.port.in.WriteCommentUseCase;
 import com.cmc.board.application.port.in.WriteReplyUseCase;
@@ -19,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CommentService implements WriteCommentUseCase, WriteReplyUseCase, UpdateCommentUseCase {
+public class CommentService implements
+        WriteCommentUseCase, WriteReplyUseCase, UpdateCommentUseCase, DeleteCommentUseCase {
     private final CommentRepository commentRepository;
     private final ValidatePostPort validatePostPort;
 
@@ -45,6 +47,14 @@ public class CommentService implements WriteCommentUseCase, WriteReplyUseCase, U
         Comment comment = commentRepository.findById(command.commentId())
                 .orElseThrow(CommentNotFoundException::new);
         comment.update(command.authorId(), new CommentContent(command.content()));
+        commentRepository.save(comment);
+    }
+
+    @Override
+    public void delete(Long userId, Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(CommentNotFoundException::new);
+        comment.delete(userId);
         commentRepository.save(comment);
     }
 
