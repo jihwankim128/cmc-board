@@ -2,6 +2,7 @@ package com.cmc.user;
 
 import static com.cmc.user.presentation.api.status.UserSuccessStatus.USER_LOGIN_SUCCESS;
 
+import com.cmc.global.auth.AdminPrincipal;
 import com.cmc.global.auth.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.common.interfaces.StatusCode;
@@ -47,6 +48,15 @@ public class TestTempController {
     @GetMapping("/users/me")
     public CommonResponse<UserDto> getMe(@UserPrincipal Long userId) {
         UserEntity userEntity = userJpaRepository.findById(userId).get();
+        UserDto dto = new UserDto(userEntity.getId(), userEntity.getNickname(), userEntity.getEmail(),
+                userEntity.getPasswordHash(), userEntity.getRole().name());
+        return CommonResponse.ok(dto, UserCode.USER_GET_ME_SUCCESS, "조회 성공");
+    }
+
+    @AdminPrincipal
+    @GetMapping("/users/me/admin")
+    public CommonResponse<UserDto> getMeAdmin() {
+        UserEntity userEntity = userJpaRepository.findById(1L).get();
         UserDto dto = new UserDto(userEntity.getId(), userEntity.getNickname(), userEntity.getEmail(),
                 userEntity.getPasswordHash(), userEntity.getRole().name());
         return CommonResponse.ok(dto, UserCode.USER_GET_ME_SUCCESS, "조회 성공");
