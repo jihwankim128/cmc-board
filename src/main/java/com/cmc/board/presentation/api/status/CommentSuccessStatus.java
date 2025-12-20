@@ -1,0 +1,7 @@
+package com.cmc.board.presentation.api.status;
+
+import com.cmc.global.common.interfaces.StatusCode;
+
+public enum CommentSuccessStatus implements StatusCode {
+    CREATE_COMMENT_SUCCESS,
+}
