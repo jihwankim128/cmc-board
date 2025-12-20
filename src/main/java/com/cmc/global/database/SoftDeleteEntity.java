@@ -3,7 +3,7 @@ package com.cmc.global.database;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,10 +22,10 @@ public abstract class SoftDeleteEntity extends TimeBaseEntity {
     @Column(nullable = false)
     private boolean deleted = false;
 
-    private LocalDateTime deletedAt;
+    private Instant deletedAt;
 
     public void delete() {
         this.deleted = true;
-        this.deletedAt = LocalDateTime.now();
+        this.deletedAt = Instant.now();
     }
 }

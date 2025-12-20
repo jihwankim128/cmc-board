@@ -13,10 +13,14 @@ import com.cmc.board.presentation.api.docs.CommentApiControllerDocs;
 import com.cmc.board.presentation.api.dto.comment.ReplyCommentDto;
 import com.cmc.board.presentation.api.dto.comment.UpdateCommentDto;
 import com.cmc.board.presentation.api.dto.comment.WriteCommentDto;
+import com.cmc.board.presentation.query.CommentQuery;
+import com.cmc.board.presentation.query.dto.CommentDto;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +38,7 @@ public class CommentApiController implements CommentApiControllerDocs {
     private final WriteReplyUseCase writeReplyUseCase;
     private final UpdateCommentUseCase updateCommentUseCase;
     private final DeleteCommentUseCase deleteCommentUseCase;
+    private final CommentQuery commentQuery;
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
@@ -66,5 +71,13 @@ public class CommentApiController implements CommentApiControllerDocs {
         deleteCommentUseCase.delete(authorId, commentId);
         String message = messageSourceHelper.extractMessage(DELETE_COMMENT_SUCCESS);
         return CommonResponse.noContent(DELETE_COMMENT_SUCCESS, message);
+    }
+
+    // 임시용 전체 조회 endpoint
+    @GetMapping
+    public CommonResponse<List<CommentDto>> getComments() {
+        // 임시 확인용: 별도의 GET 성공 상태코드가 정해지기 전까지 UPDATE_COMMENT_SUCCESS 재사용
+        String message = messageSourceHelper.extractMessage(UPDATE_COMMENT_SUCCESS);
+        return CommonResponse.ok(commentQuery.getComments(), UPDATE_COMMENT_SUCCESS, message);
     }
 }

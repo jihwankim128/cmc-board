@@ -3,7 +3,7 @@ package com.cmc.global.database;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,8 +21,8 @@ public abstract class TimeBaseEntity {
 
     @Column(nullable = false, updatable = false)
     @CreatedDate
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     @Column
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private Instant modifiedAt;
 }
