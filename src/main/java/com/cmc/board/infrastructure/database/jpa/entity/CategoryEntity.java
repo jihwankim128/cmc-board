@@ -1,7 +1,7 @@
 package com.cmc.board.infrastructure.database.jpa.entity;
 
-import com.cmc.board.domain.Category;
-import com.cmc.board.domain.vo.info.CategoryName;
+import com.cmc.board.domain.category.Category;
+import com.cmc.board.domain.category.vo.CategoryName;
 import com.cmc.global.database.TimeBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

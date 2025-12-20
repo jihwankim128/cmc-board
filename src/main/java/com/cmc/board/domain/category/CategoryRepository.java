@@ -1,4 +1,4 @@
-package com.cmc.board.domain;
+package com.cmc.board.domain.category;
 
 import java.util.Optional;
 
