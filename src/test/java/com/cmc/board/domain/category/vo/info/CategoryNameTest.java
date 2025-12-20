@@ -4,11 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 
-<<<<<<< HEAD
 import com.cmc.board.domain.category.vo.CategoryName;
 import com.cmc.board.domain.constants.CategoryExceptionStatus;
-=======
->>>>>>> c2c61da (feat: add board post model)
 import com.cmc.global.common.exception.client.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
