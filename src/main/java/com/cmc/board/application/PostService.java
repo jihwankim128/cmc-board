@@ -14,8 +14,10 @@ import com.cmc.board.domain.post.vo.PostTitle;
 import com.cmc.global.common.exception.client.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class PostService implements CreatePostUseCase, UpdatePostUseCase, DeletePostUseCase {
 
