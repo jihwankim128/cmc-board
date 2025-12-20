@@ -12,4 +12,8 @@ public final class StringUtils {
     public static boolean isOverLimit(String value, int limit) {
         return !isBlank(value) && value.length() >= limit;
     }
+
+    public static boolean isUnderMin(String value, int limit) {
+        return !isBlank(value) && value.length() < limit;
+    }
 }
