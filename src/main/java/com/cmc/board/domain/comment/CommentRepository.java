@@ -1,0 +1,8 @@
+package com.cmc.board.domain.comment;
+
+import java.util.Optional;
+
+public interface CommentRepository {
+    Comment save(Comment comment);
+    Optional<Comment> findById(Long id);
+}

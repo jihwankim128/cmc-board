@@ -3,7 +3,7 @@ package com.cmc.board.domain.post;
 import com.cmc.board.domain.constants.PostExceptionStatus;
 import com.cmc.board.domain.post.vo.PostContent;
 import com.cmc.board.domain.post.vo.PostTitle;
-import com.cmc.global.common.exception.client.UnAuthorizedException;
+import com.cmc.global.common.exception.client.ForbiddenException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -44,7 +44,7 @@ public class Post {
 
     private void validateAuthor(Long userId) {
         if (!authorId.equals(userId)) {
-            throw new UnAuthorizedException(PostExceptionStatus.MISMATCH_POST_AUTHOR);
+            throw new ForbiddenException(PostExceptionStatus.MISMATCH_POST_AUTHOR);
         }
     }
 }
