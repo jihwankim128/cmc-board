@@ -55,4 +55,22 @@ class CommentTest {
                 .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.MISMATCH_COMMENT_AUTHOR);
     }
 
+    @Test
+    void 댓글_삭제를_할_수_있다() {
+        // when
+        comment.delete(authorId);
+
+        // then
+        assertThat(comment.getStatus()).isEqualTo(CommentStatus.DELETED);
+    }
+
+    @Test
+    void 댓글_삭제_시_본인이_아니면_예외가_발생한다() {
+        // given
+        Long otherUserId = 2L;
+        // when & then
+        assertThatThrownBy(() -> comment.delete(otherUserId))
+                .isInstanceOf(ForbiddenException.class)
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.MISMATCH_COMMENT_AUTHOR);
+    }
 }

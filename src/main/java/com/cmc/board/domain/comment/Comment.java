@@ -38,6 +38,11 @@ public class Comment {
         this.content = newContent;
     }
 
+    public void delete(Long userId) {
+        validateAuthor(userId);
+        this.status = CommentStatus.DELETED;
+    }
+
     private void validateAuthor(Long userId) {
         if (!authorId.equals(userId)) {
             throw new ForbiddenException(MISMATCH_COMMENT_AUTHOR);
