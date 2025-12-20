@@ -10,9 +10,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "게시판 게시글 API", description = "게시글 관련 API 목록입니다.")
 public interface PostApiControllerDocs {
@@ -63,5 +60,23 @@ public interface PostApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Void> update(@PathVariable Long postId, @RequestBody @Valid UpdatePostDto dto);
+    CommonResponse<Void> update(Long postId, UpdatePostDto dto);
+
+    @Operation(summary = "게시글 삭제", description = "게시글을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "DELETE_POST_SUCCESS")
+    @ApiResponse(
+            responseCode = "401",
+            description = """
+                        MISMATCH_POST_AUTHOR: 작성자가 아닌 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+
+    @ApiResponse(
+            responseCode = "404",
+            description = """
+                        NOT_FOUND_POST: 게시글이 없는 경우
+                    """,
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    @CommonDocs
+    CommonResponse<Void> delete(Long postId);
 }

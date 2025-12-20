@@ -14,6 +14,7 @@ public class PostMessageMapper implements MessageKeyMapper {
         return Map.of(
                 PostSuccessStatus.CREATE_POST_SUCCESS, "post.create.success",
                 PostSuccessStatus.UPDATE_POST_SUCCESS, "post.update.success",
+                PostSuccessStatus.DELETE_POST_SUCCESS, "post.delete.success",
                 PostExceptionStatus.POST_TITLE_BLANK, "post.title.blank",
                 PostExceptionStatus.POST_CONTENT_BLANK, "post.content.blank",
                 PostExceptionStatus.POST_TITLE_TOO_LONG, "post.title.tooLong",
