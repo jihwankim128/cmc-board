@@ -1,4 +1,4 @@
-package com.cmc.board.domain.vo.info;
+package com.cmc.board.domain.category.vo;
 
 import static com.cmc.board.domain.constants.CategoryExceptionStatus.CATEGORY_NAME_EMPTY;
 import static com.cmc.board.domain.constants.CategoryExceptionStatus.CATEGORY_NAME_TOO_LONG;

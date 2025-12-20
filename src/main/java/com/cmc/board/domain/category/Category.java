@@ -1,6 +1,6 @@
-package com.cmc.board.domain;
+package com.cmc.board.domain.category;
 
-import com.cmc.board.domain.vo.info.CategoryName;
+import com.cmc.board.domain.category.vo.CategoryName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

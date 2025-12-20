@@ -1,7 +1,7 @@
 package com.cmc.board.infrastructure.database;
 
-import com.cmc.board.domain.Category;
-import com.cmc.board.domain.CategoryRepository;
+import com.cmc.board.domain.category.Category;
+import com.cmc.board.domain.category.CategoryRepository;
 import com.cmc.board.infrastructure.database.jpa.CategoryJpaRepository;
 import com.cmc.board.infrastructure.database.jpa.entity.CategoryEntity;
 import java.util.Optional;
