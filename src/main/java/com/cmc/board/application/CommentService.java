@@ -34,7 +34,6 @@ public class CommentService implements
 
     @Override
     public Long reply(ReplyCommentCommand command) {
-        validatePost(command.postId());
         Comment parent = commentRepository.findById(command.parentCommentId())
                 .orElseThrow(CommentNotFoundException::new);
         Comment reply = command.toReply(parent);

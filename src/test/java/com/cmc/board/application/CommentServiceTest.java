@@ -42,7 +42,7 @@ class CommentServiceTest {
     private CommentService commentService;
 
     private WriteCommentCommand createCommand = new WriteCommentCommand(1L, 1L, "댓글입니다");
-    private ReplyCommentCommand replyCommand = new ReplyCommentCommand(1L, 1L, 1L, "대댓글입니다");
+    private ReplyCommentCommand replyCommand = new ReplyCommentCommand(1L, 1L, "대댓글입니다");
     private UpdateCommentCommand updateCommand = new UpdateCommentCommand(1L, 1L, "수정 댓글입니다");
 
     private Comment mockComment;
@@ -79,20 +79,8 @@ class CommentServiceTest {
     }
 
     @Test
-    void 대댓글_생성시_게시글이_존재하지않으면_예외가_발생한다() {
-        // given
-        when(validatePostPort.existsById(anyLong())).thenReturn(false);
-
-        // when & then
-        assertThatThrownBy(() -> commentService.reply(replyCommand))
-                .isInstanceOf(PostNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
-    }
-
-    @Test
     void 대댓글_생성시_부모_댓글이_존재하지않으면_예외가_발생한다() {
         // given
-        when(validatePostPort.existsById(anyLong())).thenReturn(true);
         when(commentRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // when & then
@@ -104,7 +92,6 @@ class CommentServiceTest {
     @Test
     void 대댓글_생성_커맨드가_발생하면_대댓글을_생성하고_저장한다() {
         // given
-        when(validatePostPort.existsById(anyLong())).thenReturn(true);
         Comment parent = Comment.of(1L, 1L, null, 1L, BASE_DEPTH, new CommentContent("부모 댓글입니다."), PUBLISHED);
         when(commentRepository.findById(anyLong())).thenReturn(Optional.of(parent));
         when(mockComment.getId()).thenReturn(2L);
