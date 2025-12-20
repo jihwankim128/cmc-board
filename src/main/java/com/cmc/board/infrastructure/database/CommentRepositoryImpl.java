@@ -1,4 +1,4 @@
-package com.cmc.board.infrastructure.database.query;
+package com.cmc.board.infrastructure.database;
 
 import com.cmc.board.domain.comment.Comment;
 import com.cmc.board.domain.comment.CommentRepository;

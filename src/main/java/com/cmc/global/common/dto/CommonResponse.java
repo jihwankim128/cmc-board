@@ -10,10 +10,10 @@ public record CommonResponse<T>(
         Instant timestamp
 ) {
     public static <T> CommonResponse<T> ok(T data, StatusCode code, String message) {
-        return new CommonResponse<>(message, code.getCode(), data, Instant.now());
+        return new CommonResponse<>(code.getCode(), message, data, Instant.now());
     }
 
     public static <Void> CommonResponse<Void> noContent(StatusCode code, String message) {
-        return new CommonResponse<>(message, code.getCode(), null, Instant.now());
+        return new CommonResponse<>(code.getCode(), message, null, Instant.now());
     }
 }
