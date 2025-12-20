@@ -5,7 +5,6 @@ import com.cmc.global.common.exception.BaseException;
 import com.cmc.global.common.exception.client.ForbiddenException;
 import com.cmc.global.common.exception.client.NotFoundException;
 import com.cmc.global.common.exception.client.UnAuthorizedException;
-import com.cmc.global.web.message.GlobalMessageKeyMapper;
 import com.cmc.global.web.message.MessageSourceHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +17,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-    private static final String INTERNAL_SERVER_ERROR_KEY = "";
+    private static final String INTERNAL_SERVER_ERROR_KEY = "error.5xx.internal";
 
     private final MessageSourceHelper messageSourceHelper;
-    private final GlobalMessageKeyMapper globalMessageKeyMapper;
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleClientBaseException(BaseException e) {
-        String messageKey = globalMessageKeyMapper.getMessageKey(e.getStatus());
-        String message = messageSourceHelper.extractMessage(messageKey, e.getArgs());
+        String message = messageSourceHelper.extractMessage(e.getStatus(), e.getArgs());
         return ResponseEntity.status(determineHttpStatus(e))
                 .body(ErrorResponse.of(e.getStatus().getCode(), message));
     }

@@ -5,7 +5,7 @@ import com.cmc.board.application.port.in.UpdateCategoryUseCase;
 import com.cmc.board.application.port.in.command.UpdateCategoryCommand;
 import com.cmc.board.domain.Category;
 import com.cmc.board.domain.CategoryRepository;
-import com.cmc.board.domain.constants.BoardExceptionStatus;
+import com.cmc.board.domain.constants.CategoryExceptionStatus;
 import com.cmc.board.domain.vo.info.CategoryName;
 import com.cmc.global.common.exception.client.BadRequestException;
 import com.cmc.global.common.exception.client.NotFoundException;
@@ -39,18 +39,18 @@ public class CategoryService implements CreateCategoryUseCase, UpdateCategoryUse
 
     private Category getOrElseThrow(UpdateCategoryCommand command) {
         return categoryRepository.findById(command.id())
-                .orElseThrow(() -> new NotFoundException(BoardExceptionStatus.CATEGORY_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(CategoryExceptionStatus.CATEGORY_NOT_FOUND));
     }
 
     private void validateDuplicate(String name, Long id) {
         if (categoryRepository.existsByNameExcludeId(name, id)) {
-            throw new BadRequestException(BoardExceptionStatus.CATEGORY_NAME_DUPLICATED);
+            throw new BadRequestException(CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
         }
     }
 
     private void validateDuplicate(String name) {
         if (categoryRepository.existsByName(name)) {
-            throw new BadRequestException(BoardExceptionStatus.CATEGORY_NAME_DUPLICATED);
+            throw new BadRequestException(CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
         }
     }
 }

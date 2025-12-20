@@ -13,7 +13,7 @@ import static org.mockito.Mockito.when;
 import com.cmc.board.application.port.in.command.UpdateCategoryCommand;
 import com.cmc.board.domain.Category;
 import com.cmc.board.domain.CategoryRepository;
-import com.cmc.board.domain.constants.BoardExceptionStatus;
+import com.cmc.board.domain.constants.CategoryExceptionStatus;
 import com.cmc.board.domain.vo.info.CategoryName;
 import com.cmc.global.common.exception.client.BadRequestException;
 import com.cmc.global.common.exception.client.NotFoundException;
@@ -64,7 +64,7 @@ class CategoryServiceTest {
         // when & then
         assertThatThrownBy(() -> categoryService.create(duplicateCategoryName))
                 .isInstanceOf(BadRequestException.class)
-                .hasFieldOrPropertyWithValue("status", BoardExceptionStatus.CATEGORY_NAME_DUPLICATED);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
     }
 
     @Test
@@ -76,7 +76,7 @@ class CategoryServiceTest {
         // when & then
         assertThatThrownBy(() -> categoryService.update(command))
                 .isInstanceOf(NotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", BoardExceptionStatus.CATEGORY_NOT_FOUND);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NOT_FOUND);
     }
 
     @Test
@@ -89,7 +89,7 @@ class CategoryServiceTest {
         // when & then
         assertThatThrownBy(() -> categoryService.update(command))
                 .isInstanceOf(BadRequestException.class)
-                .hasFieldOrPropertyWithValue("status", BoardExceptionStatus.CATEGORY_NAME_DUPLICATED);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NAME_DUPLICATED);
     }
 
     @Test
