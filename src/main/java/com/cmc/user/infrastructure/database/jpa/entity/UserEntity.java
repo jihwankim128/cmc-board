@@ -3,6 +3,7 @@ package com.cmc.user.infrastructure.database.jpa.entity;
 import com.cmc.global.database.TimeBaseEntity;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.vo.Nickname;
+import com.cmc.user.domain.vo.Email;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,11 +29,22 @@ public class UserEntity extends TimeBaseEntity {
     @Column(nullable = false, length = 50)
     private String nickname;
 
+    @Column(nullable = false, unique = true, length = 120)
+    private String email;
+
+    @Column(nullable = false, length = 100)
+    private String passwordHash;
+
     public static UserEntity from(User user) {
-        return new UserEntity(user.getId(), user.getNickname().value());
+        return new UserEntity(
+                user.getId(),
+                user.getNickname().value(),
+                user.getEmail().value(),
+                user.getPasswordHash()
+        );
     }
 
     public User toDomain() {
-        return User.of(id, new Nickname(nickname));
+        return User.of(id, new Nickname(nickname), new Email(email), passwordHash);
     }
 }

@@ -1,8 +1,9 @@
 package com.cmc.user.application;
 
-import com.cmc.user.application.port.in.CreateUserUseCase;
+import com.cmc.user.application.port.in.SingupUserUseCase;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.UserRepository;
+import com.cmc.user.domain.vo.Email;
 import com.cmc.user.domain.vo.Nickname;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,13 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class UserService implements CreateUserUseCase {
+public class AuthService implements SingupUserUseCase {
 
     private final UserRepository userRepository;
 
     @Override
-    public Long create(String nickname) {
-        User user = User.create(new Nickname(nickname));
+    public Long signup(String nickname, String email, String password) {
+        User user = User.create(new Nickname(nickname), new Email(email), password);
         User savedUser = userRepository.save(user);
         return savedUser.getId();
     }

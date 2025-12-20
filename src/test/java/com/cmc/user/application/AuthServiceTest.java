@@ -14,12 +14,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class AuthServiceTest {
 
     @Mock
     private UserRepository userRepository;
     @InjectMocks
-    private UserService userService;
+    private AuthService authService;
 
     @Test
     void 사용자_생성_커맨드가_발생하면_사용자를_생성하고_저장한다() {
@@ -29,7 +29,7 @@ class UserServiceTest {
         when(userRepository.save(any(User.class))).thenReturn(mockUser);
 
         // when
-        Long result = userService.create("김지환");
+        Long result = authService.signup("김지환", "testuser123@example.com", "password");
 
         // then
         assertThat(mockUser.getId()).isEqualTo(result);
