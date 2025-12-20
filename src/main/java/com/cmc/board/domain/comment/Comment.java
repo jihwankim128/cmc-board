@@ -1,7 +1,10 @@
 package com.cmc.board.domain.comment;
 
+import static com.cmc.board.domain.constants.CommentExceptionStatus.MISMATCH_COMMENT_AUTHOR;
+
 import com.cmc.board.domain.comment.vo.CommentContent;
 import com.cmc.board.domain.comment.vo.CommentDepth;
+import com.cmc.global.common.exception.client.ForbiddenException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -28,5 +31,16 @@ public class Comment {
 
     public static Comment create(Long authorId, Long postId, CommentContent content) {
         return new Comment(null, postId, null, authorId, CommentDepth.BASE_DEPTH, content);
+    }
+
+    public void update(Long userId, CommentContent newContent) {
+        validateAuthor(userId);
+        this.content = newContent;
+    }
+
+    private void validateAuthor(Long userId) {
+        if (!authorId.equals(userId)) {
+            throw new ForbiddenException(MISMATCH_COMMENT_AUTHOR);
+        }
     }
 }

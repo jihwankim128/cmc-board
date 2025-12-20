@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.cmc.board.domain.post.vo.PostContent;
 import com.cmc.board.domain.post.vo.PostTitle;
-import com.cmc.global.common.exception.client.UnAuthorizedException;
+import com.cmc.global.common.exception.client.ForbiddenException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,7 +53,7 @@ class PostTest {
 
         // when & then
         assertThatThrownBy(() -> post.update(otherUserId, categoryId, title, newContent))
-                .isInstanceOf(UnAuthorizedException.class)
+                .isInstanceOf(ForbiddenException.class)
                 .hasFieldOrPropertyWithValue("status", MISMATCH_POST_AUTHOR);
     }
 
@@ -70,7 +70,7 @@ class PostTest {
     void 작성자가_아닌_사람이_게시글을_삭제하면_예외가_발생한다() {
         // when & then
         assertThatThrownBy(() -> post.delete(otherUserId))
-                .isInstanceOf(UnAuthorizedException.class)
+                .isInstanceOf(ForbiddenException.class)
                 .hasFieldOrPropertyWithValue("status", MISMATCH_POST_AUTHOR);
     }
 }
