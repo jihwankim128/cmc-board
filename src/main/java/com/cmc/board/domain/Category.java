@@ -7,18 +7,22 @@ import lombok.Getter;
 public class Category {
 
     private final Long id;
-    private final CategoryName name;
+    private CategoryName name;
 
     private Category(CategoryName name) {
         this.id = null;
         this.name = name;
     }
 
-    public static Category from(String name) {
-        return new Category(new CategoryName(name));
+    public static Category from(CategoryName name) {
+        return new Category(name);
     }
 
     public String getName() {
         return name.value();
+    }
+
+    public void update(CategoryName name) {
+        this.name = name;
     }
 }
