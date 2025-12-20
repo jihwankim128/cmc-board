@@ -15,10 +15,13 @@ public class UserMessageMapper implements MessageKeyMapper {
     public Map<StatusCode, String> getMessageKeys() {
         return Map.ofEntries(
                 entry(UserSuccessStatus.USER_SIGNUP_SUCCESS, "user.signup.success"),
+                entry(UserSuccessStatus.USER_LOGIN_SUCCESS, "user.login.success"),
 
                 entry(UserExceptionStatus.USER_NICKNAME_EMPTY, "user.nickname.empty"),
                 entry(UserExceptionStatus.USER_NICKNAME_OUT_OF_RANGE, "user.nickname.outOfRange"),
-                entry(UserExceptionStatus.USER_EMAIL_INVALID, "user.email.invalid")
+                entry(UserExceptionStatus.USER_EMAIL_INVALID, "user.email.invalid"),
+                entry(UserExceptionStatus.USER_ACCOUNT_INVALID, "user.account.invalid"),
+                entry(UserExceptionStatus.USER_ACCOUNT_DUPLICATED, "user.account.duplicated")
         );
     }
 }
