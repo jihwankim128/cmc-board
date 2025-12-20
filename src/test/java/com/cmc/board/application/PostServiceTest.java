@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import com.cmc.board.application.port.in.command.CreatePostCommand;
 import com.cmc.board.application.port.in.command.UpdatePostCommand;
 import com.cmc.board.application.port.out.ValidateCategoryPort;
+import com.cmc.board.domain.constants.CategoryExceptionStatus;
 import com.cmc.board.domain.constants.PostExceptionStatus;
 import com.cmc.board.domain.post.Post;
 import com.cmc.board.domain.post.PostRepository;
@@ -54,7 +55,7 @@ class PostServiceTest {
         // when & then
         assertThatThrownBy(() -> postService.create(createCommand))
                 .isInstanceOf(NotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_CATEGORY);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NOT_FOUND);
     }
 
     @Test
@@ -80,7 +81,7 @@ class PostServiceTest {
         // when & then
         assertThatThrownBy(() -> postService.update(updateCommand))
                 .isInstanceOf(NotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_CATEGORY);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NOT_FOUND);
     }
 
     @Test
@@ -92,7 +93,7 @@ class PostServiceTest {
         // when & then
         assertThatThrownBy(() -> postService.update(updateCommand))
                 .isInstanceOf(NotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_POST);
+                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
     }
 
     @Test
@@ -117,7 +118,7 @@ class PostServiceTest {
         // when & then
         assertThatThrownBy(() -> postService.delete(1L, 1L))
                 .isInstanceOf(NotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_POST);
+                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
     }
 
     @Test

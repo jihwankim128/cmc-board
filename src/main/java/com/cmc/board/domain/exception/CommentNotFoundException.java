@@ -5,6 +5,6 @@ import com.cmc.global.common.exception.client.NotFoundException;
 
 public class CommentNotFoundException extends NotFoundException {
     public CommentNotFoundException() {
-        super(CommentExceptionStatus.NOT_FOUND_COMMENT);
+        super(CommentExceptionStatus.COMMENT_NOT_FOUND);
     }
 }

@@ -8,5 +8,5 @@ public enum PostExceptionStatus implements StatusCode {
     POST_CONTENT_TOO_SHORT,
     POST_CONTENT_BLANK,
     MISMATCH_POST_AUTHOR,
-    NOT_FOUND_CATEGORY, NOT_FOUND_POST,
+    POST_NOT_FOUND,
 }

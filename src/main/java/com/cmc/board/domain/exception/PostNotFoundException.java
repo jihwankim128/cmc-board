@@ -5,6 +5,6 @@ import com.cmc.global.common.exception.client.NotFoundException;
 
 public class PostNotFoundException extends NotFoundException {
     public PostNotFoundException() {
-        super(PostExceptionStatus.NOT_FOUND_POST);
+        super(PostExceptionStatus.POST_NOT_FOUND);
     }
 }

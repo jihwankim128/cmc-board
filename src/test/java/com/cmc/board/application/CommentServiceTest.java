@@ -60,7 +60,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(() -> commentService.create(createCommand))
                 .isInstanceOf(PostNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_POST);
+                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
     }
 
     @Test
@@ -86,7 +86,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(() -> commentService.reply(replyCommand))
                 .isInstanceOf(PostNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.NOT_FOUND_POST);
+                .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
     }
 
     @Test
@@ -98,7 +98,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(() -> commentService.reply(replyCommand))
                 .isInstanceOf(CommentNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.COMMENT_NOT_FOUND);
     }
 
     @Test
@@ -126,7 +126,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(() -> commentService.update(updateCommand))
                 .isInstanceOf(CommentNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.COMMENT_NOT_FOUND);
     }
 
     @Test
@@ -150,7 +150,7 @@ class CommentServiceTest {
         // when & then
         assertThatThrownBy(() -> commentService.delete(1L, 1L))
                 .isInstanceOf(CommentNotFoundException.class)
-                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.NOT_FOUND_COMMENT);
+                .hasFieldOrPropertyWithValue("status", CommentExceptionStatus.COMMENT_NOT_FOUND);
     }
 
     @Test
