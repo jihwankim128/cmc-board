@@ -1,8 +1,8 @@
 package com.cmc.board.presentation.api.docs;
 
-import com.cmc.board.presentation.api.dto.category.CategoryDto;
 import com.cmc.board.presentation.api.dto.category.CreateCategoryDto;
 import com.cmc.board.presentation.api.dto.category.UpdateCategoryDto;
+import com.cmc.board.presentation.query.dto.CategoryDto;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.common.dto.ErrorResponse;
 import com.cmc.global.docs.CommonDocs;
@@ -45,7 +45,7 @@ public interface CategoryApiControllerDocs {
     CommonResponse<Void> update(Long categoryId, UpdateCategoryDto dto);
 
 
-    @Operation(summary = "카테고리 조회", description = "카테고리를 조회합니다.")
+    @Operation(summary = "카테고리 목록 조회", description = "카테고리 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "GET_CATEGORIES_SUCCESS")
     @CommonDocs
     CommonResponse<List<CategoryDto>> getCategories();

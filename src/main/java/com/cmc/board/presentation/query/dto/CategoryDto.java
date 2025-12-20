@@ -1,4 +1,4 @@
-package com.cmc.board.presentation.api.dto.category;
+package com.cmc.board.presentation.query.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
