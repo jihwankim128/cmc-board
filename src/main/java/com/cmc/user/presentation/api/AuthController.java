@@ -10,7 +10,6 @@ import com.cmc.user.application.port.in.SingupUseCase;
 import com.cmc.user.presentation.api.docs.AuthApiControllerDocs;
 import com.cmc.user.presentation.api.dto.LoginDto;
 import com.cmc.user.presentation.api.dto.SignupDto;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,10 +36,9 @@ public class AuthController implements AuthApiControllerDocs {
     }
 
     @PostMapping("/login")
-    public CommonResponse<Long> login(@RequestBody @Valid LoginDto dto, HttpSession session) {
-        Long userId = loginUseCase.login(dto.email(), dto.password());
-        session.setAttribute("USER_ID", userId);
+    public CommonResponse<Void> login(@RequestBody @Valid LoginDto dto) {
+        loginUseCase.login(dto.email(), dto.password());
         String message = messageSourceHelper.extractMessage(USER_LOGIN_SUCCESS);
-        return CommonResponse.ok(userId, USER_LOGIN_SUCCESS, message);
+        return CommonResponse.noContent(USER_LOGIN_SUCCESS, message);
     }
 }
