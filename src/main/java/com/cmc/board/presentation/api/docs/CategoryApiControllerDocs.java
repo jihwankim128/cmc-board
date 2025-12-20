@@ -45,7 +45,7 @@ public interface CategoryApiControllerDocs {
     CommonResponse<Void> update(Long categoryId, UpdateCategoryDto dto);
 
 
-    @Operation(summary = "카테고리 조회", description = "카테고리를 조회합니다.")
+    @Operation(summary = "카테고리 목록 조회", description = "카테고리 목록을 조회합니다.")
     @ApiResponse(responseCode = "200", description = "GET_CATEGORIES_SUCCESS")
     @CommonDocs
     CommonResponse<List<CategoryDto>> getCategories();
