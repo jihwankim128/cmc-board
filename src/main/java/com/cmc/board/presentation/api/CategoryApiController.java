@@ -6,6 +6,7 @@ import static com.cmc.board.presentation.api.status.CategorySuccessStatus.UPDATE
 
 import com.cmc.board.application.port.in.CreateCategoryUseCase;
 import com.cmc.board.application.port.in.UpdateCategoryUseCase;
+import com.cmc.board.presentation.api.docs.CategoryApiControllerDocs;
 import com.cmc.board.presentation.api.dto.category.CategoryDto;
 import com.cmc.board.presentation.api.dto.category.CreateCategoryDto;
 import com.cmc.board.presentation.api.dto.category.UpdateCategoryDto;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/categories")
-public class CategoryApiController {
+public class CategoryApiController implements CategoryApiControllerDocs {
 
     private final CreateCategoryUseCase createUseCase;
     private final UpdateCategoryUseCase updateUseCase;
