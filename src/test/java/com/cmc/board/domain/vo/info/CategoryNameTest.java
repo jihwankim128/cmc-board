@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 
-import com.cmc.board.domain.constants.BoardExceptionStatus;
+import com.cmc.board.domain.constants.CategoryExceptionStatus;
 import com.cmc.global.common.exception.client.BadRequestException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ class CategoryNameTest {
         // when & then
         assertThatThrownBy(() -> new CategoryName(emptyCategoryName))
                 .isInstanceOf(BadRequestException.class)
-                .hasFieldOrPropertyWithValue("status", BoardExceptionStatus.CATEGORY_NAME_EMPTY);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NAME_EMPTY);
     }
 
     @Test
@@ -29,7 +29,7 @@ class CategoryNameTest {
 
         assertThatThrownBy(() -> new CategoryName(tooLongName))
                 .isInstanceOf(BadRequestException.class)
-                .hasFieldOrPropertyWithValue("status", BoardExceptionStatus.CATEGORY_NAME_TOO_LONG);
+                .hasFieldOrPropertyWithValue("status", CategoryExceptionStatus.CATEGORY_NAME_TOO_LONG);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.cmc.board.domain.vo.info;
 
-import static com.cmc.board.domain.constants.BoardExceptionStatus.CATEGORY_NAME_EMPTY;
-import static com.cmc.board.domain.constants.BoardExceptionStatus.CATEGORY_NAME_TOO_LONG;
+import static com.cmc.board.domain.constants.CategoryExceptionStatus.CATEGORY_NAME_EMPTY;
+import static com.cmc.board.domain.constants.CategoryExceptionStatus.CATEGORY_NAME_TOO_LONG;
 
 import com.cmc.global.common.exception.client.BadRequestException;
 import com.cmc.global.common.utils.StringUtils;
