@@ -10,7 +10,9 @@ import static org.mockito.Mockito.when;
 import com.cmc.board.application.port.out.ValidatePostPort;
 import com.cmc.board.domain.bookmark.Bookmark;
 import com.cmc.board.domain.bookmark.BookmarkRepository;
+import com.cmc.board.domain.constants.BookmarkExceptionStatus;
 import com.cmc.board.domain.constants.PostExceptionStatus;
+import com.cmc.board.domain.exception.DuplicatedBookmarkException;
 import com.cmc.board.domain.exception.PostNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,10 +41,24 @@ class BookmarkServiceTest {
                 .hasFieldOrPropertyWithValue("status", PostExceptionStatus.POST_NOT_FOUND);
     }
 
+
+    @Test
+    void 같은_게시글에_이미_북마크가_있다면_발생한다() {
+        // given
+        when(validatePostPort.existsById(anyLong())).thenReturn(true);
+        when(bookmarkRepository.hasBookmark(anyLong(), anyLong())).thenReturn(true);
+
+        // when & then
+        assertThatThrownBy(() -> bookmarkService.create(1L, 1L))
+                .isInstanceOf(DuplicatedBookmarkException.class)
+                .hasFieldOrPropertyWithValue("status", BookmarkExceptionStatus.BOOKMARK_DUPLICATED);
+    }
+
     @Test
     void 북마크_생성_커맨드가_발생하면_북마크를_생성하고_저장한다() {
         // given
         when(validatePostPort.existsById(anyLong())).thenReturn(true);
+        when(bookmarkRepository.hasBookmark(anyLong(), anyLong())).thenReturn(false);
 
         // when
         bookmarkService.create(1L, 1L);

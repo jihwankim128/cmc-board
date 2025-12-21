@@ -18,4 +18,9 @@ public class BookmarkRepositoryImpl implements BookmarkRepository {
         BookmarkEntity saved = jpaRepository.save(BookmarkEntity.from(bookmark));
         return saved.toDomain();
     }
+
+    @Override
+    public boolean hasBookmark(Long postId, Long userId) {
+        return jpaRepository.existsByPostIdAndUserId(postId, userId);
+    }
 }

@@ -4,4 +4,5 @@ import com.cmc.board.infrastructure.database.jpa.entity.BookmarkEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookmarkJpaRepository extends JpaRepository<BookmarkEntity, Long> {
+    boolean existsByPostIdAndUserId(Long postId, Long userId);
 }

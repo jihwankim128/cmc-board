@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.time.Instant;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,11 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Table(name = "bookmarks")
+@Table(
+        name = "bookmarks",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uk_bookmakrs_post_user", columnNames = {"post_id", "user_id"})
+        })
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
