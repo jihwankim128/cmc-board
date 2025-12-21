@@ -28,6 +28,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsByEmail(String email) {
-        return false;
+        return jpaRepository.existsByEmail(email);
     }
 }
