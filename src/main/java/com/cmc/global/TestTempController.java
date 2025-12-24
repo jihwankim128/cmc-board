@@ -19,11 +19,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 // Test용 임시 컨트롤러 - 제거 예정
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/tool")
 public class TestTempController {
 
     private final PasswordHashPort passwordHashPort;

@@ -2,6 +2,7 @@ package com.cmc.global.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -17,15 +18,27 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/swagger-ui.html",
-            "/webjars/**"
+            "/webjars/**",
+    };
+
+    private static final String[] STATIC_URIS = {
+            "/js/**",
+            "/css/**"
+    };
+
+    private static final String[] PAGE_SERVING_URIS = {
+            "/",
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         return http.httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
+                .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(PAGE_SERVING_URIS).permitAll()
+                        .requestMatchers(STATIC_URIS).permitAll()
+                        .requestMatchers("/account/**").permitAll()
+                        .requestMatchers("/tool/**").permitAll()
                         .requestMatchers(SWAGGER_URIS).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .securityContext(context -> context.requireExplicitSave(false))
