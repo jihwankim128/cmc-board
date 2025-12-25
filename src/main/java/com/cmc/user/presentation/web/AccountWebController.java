@@ -10,4 +10,9 @@ public class AccountWebController {
     public String login() {
         return "user/login";
     }
+
+    @GetMapping("/signup")
+    public String signup() {
+        return "user/signup";
+    }
 }

@@ -28,6 +28,7 @@ public class SecurityConfig {
     private static final String[] PAGE_SERVING_URIS = {
             "/",
             "/login",
+            "/signup"
     };
 
     @Bean
