@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/auth}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>로그인</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-4">
+        <h3 class="text-center mb-4">로그인</h3>
+
+        <form id="login-form">
+            <div class="mb-3">
+                <label class="form-label" for="email">
+                    <i class="bi bi-envelope"></i> 이메일
+                </label>
+                <input autofocus class="form-control" id="email"
+                       placeholder="example@email.com" required type="email">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="password">
+                    <i class="bi bi-lock"></i> 비밀번호
+                </label>
+                <input class="form-control" id="password" placeholder="비밀번호를 입력하세요"
+                       required type="password">
+            </div>
+
+            <button class="btn btn-primary w-100 mb-3" type="submit">
+                <i class="bi bi-box-arrow-in-right"></i> 로그인
+            </button>
+        </form>
+
+        <hr>
+
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                계정이 없으신가요?
+            </p>
+            <a class="btn btn-outline-primary w-100 mt-2" th:href="@{/signup}">
+                <i class="bi bi-person-plus"></i> 회원가입
+            </a>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        $('#login-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/account/login',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    email: $('#email').val(),
+                    password: $('#password').val()
+                }),
+                success: function () {
+                    location.href = '/';
+                },
+                error: function (xhr) {
+                    const message = xhr.responseJSON?.message || '로그인에 실패했습니다.';
+                    alert(message);
+                    $('#password').val('').focus();
+                }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>

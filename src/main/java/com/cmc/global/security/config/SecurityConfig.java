@@ -17,19 +17,32 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/swagger-ui.html",
-            "/webjars/**"
+            "/webjars/**",
+    };
+
+    private static final String[] STATIC_URIS = {
+            "/js/**",
+            "/css/**"
+    };
+
+    private static final String[] PAGE_SERVING_URIS = {
+            "/",
+            "/login",
+            "/signup"
     };
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) {
         return http.httpBasic(AbstractHttpConfigurer::disable)
-                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(PAGE_SERVING_URIS).permitAll()
+                        .requestMatchers(STATIC_URIS).permitAll()
+                        .requestMatchers("/account/**").permitAll()
+                        .requestMatchers("/tool/**").permitAll()
                         .requestMatchers(SWAGGER_URIS).hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .securityContext(context -> context.requireExplicitSave(false))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .build();
     }
 }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/auth}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원가입</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="p-4">
+        <h3 class="text-center mb-4">회원가입</h3>
+
+        <form id="signup-form">
+            <div class="mb-3">
+                <label class="form-label" for="nickname">
+                    <i class="bi bi-person"></i> 닉네임
+                </label>
+                <input autofocus class="form-control" id="nickname"
+                       placeholder="닉네임을 입력하세요" required type="text">
+                <small class="text-muted">2-16자 이내</small>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="email">
+                    <i class="bi bi-envelope"></i> 이메일
+                </label>
+                <input class="form-control" id="email" placeholder="example@email.com"
+                       required type="email">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="password">
+                    <i class="bi bi-lock"></i> 비밀번호
+                </label>
+                <input class="form-control" id="password" placeholder="비밀번호를 입력하세요"
+                       required type="password">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="password-confirm">
+                    <i class="bi bi-lock-fill"></i> 비밀번호 확인
+                </label>
+                <input class="form-control" id="password-confirm" placeholder="비밀번호를 다시 입력하세요"
+                       required type="password">
+            </div>
+
+            <button class="btn btn-primary w-100 mb-3" type="submit">
+                <i class="bi bi-person-plus"></i> 회원가입
+            </button>
+        </form>
+
+        <hr>
+
+        <div class="text-center">
+            <p class="text-muted mb-0">
+                이미 계정이 있으신가요?
+            </p>
+            <a class="btn btn-outline-primary w-100 mt-2" th:href="@{/login}">
+                <i class="bi bi-box-arrow-in-right"></i> 로그인
+            </a>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        $('#signup-form').submit(function (e) {
+            e.preventDefault();
+
+            const password = $('#password').val();
+            const passwordConfirm = $('#password-confirm').val();
+
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                $('#password-confirm').val('').focus();
+                return;
+            }
+
+            $.ajax({
+                url: '/account/signup',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    nickname: $('#nickname').val(),
+                    email: $('#email').val(),
+                    password: password
+                }),
+                success: function () {
+                    alert('회원가입이 완료되었습니다!');
+                    location.href = '/login';
+                },
+                error: function (xhr) {
+                    const message = xhr.responseJSON?.message || '회원가입에 실패했습니다.';
+                    alert(message);
+                }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
