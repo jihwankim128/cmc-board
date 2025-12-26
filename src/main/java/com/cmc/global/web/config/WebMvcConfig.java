@@ -2,7 +2,6 @@ package com.cmc.global.web.config;
 
 import com.cmc.global.auth.AuthorizationHelper;
 import com.cmc.global.web.interceptor.WebInterceptor;
-import com.cmc.global.web.resolver.AdminPrincipalArgumentResolver;
 import com.cmc.global.web.resolver.UserPrincipalArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new UserPrincipalArgumentResolver(authorizationHelper));
-        resolvers.add(new AdminPrincipalArgumentResolver(authorizationHelper));
     }
 }

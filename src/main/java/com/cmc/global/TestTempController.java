@@ -2,8 +2,9 @@ package com.cmc.global;
 
 import static com.cmc.user.presentation.api.status.UserSuccessStatus.USER_LOGIN_SUCCESS;
 
-import com.cmc.global.auth.AdminPrincipal;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.AuthRole;
+import com.cmc.global.auth.annotation.PreAuth;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.common.interfaces.StatusCode;
 import com.cmc.user.application.port.in.LoginUseCase;
@@ -48,6 +49,7 @@ public class TestTempController {
     }
 
     @GetMapping("/users/me")
+    @PreAuth
     public CommonResponse<UserDto> getMe(@UserPrincipal Long userId) {
         UserEntity userEntity = userJpaRepository.findById(userId).get();
         UserDto dto = new UserDto(userEntity.getId(), userEntity.getNickname(), userEntity.getEmail(),
@@ -55,7 +57,7 @@ public class TestTempController {
         return CommonResponse.ok(dto, UserCode.USER_GET_ME_SUCCESS, "조회 성공");
     }
 
-    @AdminPrincipal
+    @PreAuth(value = AuthRole.ADMIN)
     @GetMapping("/users/me/admin")
     public CommonResponse<UserDto> getMeAdmin() {
         UserEntity userEntity = userJpaRepository.findById(1L).get();

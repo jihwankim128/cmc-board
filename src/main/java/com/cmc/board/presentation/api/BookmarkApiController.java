@@ -8,7 +8,7 @@ import com.cmc.board.presentation.api.docs.BookmarkApiControllerDocs;
 import com.cmc.board.presentation.api.dto.bookmark.CreateBookmarkDto;
 import com.cmc.board.presentation.query.BookmarkQuery;
 import com.cmc.board.presentation.query.dto.BookmarkDto;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;

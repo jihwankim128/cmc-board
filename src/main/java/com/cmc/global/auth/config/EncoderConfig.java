@@ -1,4 +1,4 @@
-package com.cmc.global.security.config;
+package com.cmc.global.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -15,7 +15,7 @@ import com.cmc.board.presentation.api.dto.comment.UpdateCommentDto;
 import com.cmc.board.presentation.api.dto.comment.WriteCommentDto;
 import com.cmc.board.presentation.query.CommentQuery;
 import com.cmc.board.presentation.query.dto.CommentDto;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;

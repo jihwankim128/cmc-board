@@ -1,7 +1,7 @@
 package com.cmc.global.web.resolver;
 
 import com.cmc.global.auth.AuthorizationHelper;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.core.MethodParameter;
