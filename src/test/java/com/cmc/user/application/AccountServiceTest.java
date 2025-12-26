@@ -1,9 +1,7 @@
 package com.cmc.user.application;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -16,7 +14,6 @@ import com.cmc.user.application.port.out.PasswordHashPort;
 import com.cmc.user.domain.User;
 import com.cmc.user.domain.UserRepository;
 import com.cmc.user.domain.constants.UserExceptionStatus;
-import com.cmc.user.domain.vo.UserRole;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -51,16 +48,14 @@ class AccountServiceTest {
     void 회원가입_커맨드가_발생하면_사용자를_생성하고_저장한다() {
         // given
         User mockUser = mock(User.class);
-        when(mockUser.getId()).thenReturn(1L);
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
-        when(userRepository.save(any(User.class))).thenReturn(mockUser);
         when(passwordHashPort.encode(anyString())).thenReturn("encodePassword");
 
         // when
-        Long result = accountService.signup("김지환", "testuser123@example.com", "password");
+        accountService.signup("김지환", "testuser123@example.com", "password");
 
         // then
-        assertThat(mockUser.getId()).isEqualTo(result);
+        verify(userRepository, times(1)).save(any(User.class));
     }
 
     @Test
@@ -89,12 +84,10 @@ class AccountServiceTest {
     }
 
     @Test
-    void 사용자_로그인_커맨드가_발생하면_로그인한_사용자_ID를_반환한다() {
+    void 사용자_로그인_커맨드가_발생하면_로그인한_사용자_인증_정보를_저장한다() {
         // given
         User mockUser = mock(User.class);
-        when(mockUser.getId()).thenReturn(1L);
         when(mockUser.getPasswordHash()).thenReturn("encodePassword");
-        when(mockUser.getRole()).thenReturn(UserRole.USER);
         when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(mockUser));
         when(passwordHashPort.match(anyString(), anyString())).thenReturn(true);
 
@@ -102,6 +95,6 @@ class AccountServiceTest {
         accountService.login("testuser123@example.com", "password");
 
         // then
-        verify(authenticationPort, times(1)).persistAuthentication(anyLong(), anyString());
+        verify(authenticationPort, times(1)).persistAuthentication(any(User.class));
     }
 }

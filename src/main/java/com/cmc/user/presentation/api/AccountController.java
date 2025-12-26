@@ -28,10 +28,10 @@ public class AccountController implements AccountApiControllerDocs {
 
     // TODO: Password 비즈니스 좀 더 명확히
     @PostMapping("/signup")
-    public CommonResponse<Long> signup(@RequestBody @Valid SignupDto dto) {
-        Long userId = signupUseCase.signup(dto.nickname(), dto.email(), dto.password());
+    public CommonResponse<Void> signup(@RequestBody @Valid SignupDto dto) {
+        signupUseCase.signup(dto.nickname(), dto.email(), dto.password());
         String message = messageSourceHelper.extractMessage(USER_SIGNUP_SUCCESS);
-        return CommonResponse.ok(userId, USER_SIGNUP_SUCCESS, message);
+        return CommonResponse.noContent(USER_SIGNUP_SUCCESS, message);
     }
 
     @PostMapping("/login")

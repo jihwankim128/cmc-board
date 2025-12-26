@@ -26,7 +26,7 @@ public interface AccountApiControllerDocs {
                     """,
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @CommonDocs
-    CommonResponse<Long> signup(SignupDto dto);
+    CommonResponse<Void> signup(SignupDto dto);
 
     @Operation(summary = "로그인", description = "사용자 로그인을 진행합니다.")
     @ApiResponse(responseCode = "200", description = "USER_LOGIN_SUCCESS")

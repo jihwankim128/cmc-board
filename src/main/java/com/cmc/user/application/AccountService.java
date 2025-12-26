@@ -24,14 +24,13 @@ public class AccountService implements SingUpUseCase, LoginUseCase {
     private final AuthenticationPort authenticationPort;
 
     @Override
-    public Long signup(String nickname, String email, String password) {
+    public void signup(String nickname, String email, String password) {
         if (userRepository.existsByEmail(email)) {
             throw new DuplicatedUserAccount();
         }
         String encodedPassword = passwordHashPort.encode(password);
         User user = User.create(new Nickname(nickname), new Email(email), encodedPassword);
-        User savedUser = userRepository.save(user);
-        return savedUser.getId();
+        userRepository.save(user);
     }
 
     @Override
@@ -40,7 +39,7 @@ public class AccountService implements SingUpUseCase, LoginUseCase {
         if (!passwordHashPort.match(password, user.getPasswordHash())) {
             throw new InvalidUserAccount();
         }
-        
+
         authenticationPort.persistAuthentication(user);
     }
 }
