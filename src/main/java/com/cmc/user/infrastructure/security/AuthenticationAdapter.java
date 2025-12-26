@@ -1,20 +1,28 @@
 package com.cmc.user.infrastructure.security;
 
+import com.cmc.global.auth.CustomUserDetails;
 import com.cmc.user.application.port.out.AuthenticationPort;
-import java.util.List;
+import com.cmc.user.domain.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AuthenticationAdapter implements AuthenticationPort {
-    
+
     @Override
-    public void persistAuthentication(Long userId, String role) {
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(userId, null, authorities);
+    public void persistAuthentication(User user) {
+        CustomUserDetails userDetails = new CustomUserDetails(
+                user.getId(),
+                user.getNickname().value(),
+                user.getRole().name()
+        );
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails,
+                null,
+                userDetails.getAuthorities()
+        );
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }
