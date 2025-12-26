@@ -16,7 +16,8 @@ public class AuthenticationHelperImpl implements AuthorizationHelper {
     @Override
     public Long getCurrentUserId() {
         try {
-            return (Long) getAuthentication().getPrincipal();
+            CustomUserDetails authentication = getAuthentication();
+            return Objects.requireNonNull(authentication).getUserId();
         } catch (ClassCastException e) {
             throw new IllegalStateException("Principal 타입 오류: Long이 아닙니다.");
         }
@@ -33,11 +34,11 @@ public class AuthenticationHelperImpl implements AuthorizationHelper {
         return Objects.requireNonNull(role).equals("ROLE_ADMIN");
     }
 
-    private Authentication getAuthentication() {
+    private CustomUserDetails getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || Objects.requireNonNull(authentication.getPrincipal()).equals("anonymousUser")) {
             throw new UnAuthorizedException(UN_AUTHENTICATED);
         }
-        return authentication;
+        return (CustomUserDetails) authentication;
     }
 }

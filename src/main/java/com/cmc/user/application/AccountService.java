@@ -40,7 +40,7 @@ public class AccountService implements SingUpUseCase, LoginUseCase {
         if (!passwordHashPort.match(password, user.getPasswordHash())) {
             throw new InvalidUserAccount();
         }
-
-        authenticationPort.persistAuthentication(user.getId(), user.getRole().name());
+        
+        authenticationPort.persistAuthentication(user);
     }
 }
