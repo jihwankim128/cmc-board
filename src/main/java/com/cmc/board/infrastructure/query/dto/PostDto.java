@@ -28,6 +28,8 @@ public class PostDto {
     Boolean authorMe;
     @Schema(description = "게시글 수정 여부")
     Boolean modified;
+    @Schema(description = "게시글 북마크 여부")
+    Boolean bookmarked;
 
     public static PostDto of(PostEntity post, UserDto author, CategoryDto category, Long userId) {
         return new PostDto(
@@ -38,7 +40,8 @@ public class PostDto {
                 post.getContent(),
                 post.getCreatedAt(),
                 post.getAuthorId().equals(userId),
-                post.isModified()
+                post.isModified(),
+                null
         );
     }
 }

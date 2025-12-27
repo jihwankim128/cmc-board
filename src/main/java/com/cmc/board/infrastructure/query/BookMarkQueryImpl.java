@@ -23,4 +23,9 @@ public class BookMarkQueryImpl implements BookmarkQuery {
                 ))
                 .toList();
     }
+
+    @Override
+    public boolean isBookmarked(Long postId, Long userId) {
+        return jpaRepository.existsByPostIdAndUserId(postId, userId);
+    }
 }

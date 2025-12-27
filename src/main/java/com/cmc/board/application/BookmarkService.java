@@ -29,4 +29,9 @@ public class BookmarkService implements CreateBookmarkUseCase {
         Bookmark bookmark = Bookmark.create(postId, userId);
         bookmarkRepository.save(bookmark);
     }
+
+    @Override
+    public void delete(Long postId, Long userId) {
+        bookmarkRepository.deleteBookmark(postId, userId);
+    }
 }

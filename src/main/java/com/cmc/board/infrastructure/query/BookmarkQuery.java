@@ -6,4 +6,6 @@ import java.util.List;
 public interface BookmarkQuery {
 
     List<BookmarkDto> getBookmarks();
+
+    boolean isBookmarked(Long postId, Long userId);
 }

@@ -27,6 +27,7 @@ public class PostQueryImpl implements PostQuery {
 
     private final CategoryQuery categoryQuery;
     private final UserQuery userQuery;
+    private final BookmarkQuery bookmarkQuery;
     private final PostJpaRepository postJpaRepository;
 
     @Override
@@ -41,7 +42,10 @@ public class PostQueryImpl implements PostQuery {
                 .orElseThrow(PostNotFoundException::new);
         CategoryDto category = categoryQuery.getCategory(post.getCategoryId());
         UserDto author = userQuery.getUser(post.getAuthorId());
-        return PostDto.of(post, author, category, userId);
+
+        PostDto dto = PostDto.of(post, author, category, userId);
+        dto.setBookmarked(bookmarkQuery.isBookmarked(postId, userId));
+        return dto;
     }
 
     @Override
