@@ -1,10 +1,10 @@
-// com.cmc.user.infrastructure.security.CurrentUserAdapter.java
 package com.cmc.global.auth;
 
 import static com.cmc.global.auth.AuthExceptionStatus.UN_AUTHENTICATED;
 
 import com.cmc.global.common.exception.client.UnAuthorizedException;
 import java.util.Objects;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,12 @@ public class AuthenticationHelperImpl implements AuthorizationHelper {
         } catch (ClassCastException e) {
             throw new IllegalStateException("Principal 타입 오류: CustomUserDetails 변환에 실패했습니다.");
         }
+    }
+
+    @Override
+    public boolean isAnonymous() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
     private Authentication getAuthentication() {
