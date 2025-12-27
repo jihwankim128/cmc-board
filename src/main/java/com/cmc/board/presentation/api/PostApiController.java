@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -69,10 +70,11 @@ public class PostApiController implements PostApiControllerDocs {
     }
 
     @GetMapping
-    public CommonResponse<List<PostDto>> getPosts() {
-        // 임시 확인용
+    @PreAuth(value = AuthRole.ANONYMOUS)
+    public CommonResponse<List<PostDto>> getPosts(@RequestParam(required = false) Long categoryId) {
+        List<PostDto> result = postQuery.getPosts(categoryId);
         String message = messageSourceHelper.extractMessage(GET_POSTS_SUCCESS);
-        return CommonResponse.ok(postQuery.getPosts(), GET_POSTS_SUCCESS, message);
+        return CommonResponse.ok(result, GET_POSTS_SUCCESS, message);
     }
 
     @GetMapping("/{postId}")

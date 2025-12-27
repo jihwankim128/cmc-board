@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BoardWebController {
@@ -29,8 +30,15 @@ public class BoardWebController {
 
     @GetMapping("/posts/{postId}")
     @PreAuth(value = AuthRole.ANONYMOUS)
-    public String categories(@PathVariable Long postId, Model model) {
+    public String postDetail(@PathVariable Long postId, Model model) {
         model.addAttribute("postId", postId);
         return "board/detail";
+    }
+
+    @GetMapping("/posts")
+    @PreAuth(value = AuthRole.ANONYMOUS)
+    public String posts(@RequestParam(required = false) Long categoryId, Model model) {
+        model.addAttribute("categoryId", categoryId);
+        return "board/list";
     }
 }
