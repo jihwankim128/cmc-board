@@ -19,6 +19,7 @@ public class PostMessageMapper implements MessageKeyMapper {
                 entry(PostSuccessStatus.DELETE_POST_SUCCESS, "post.delete.success"),
                 entry(PostSuccessStatus.GET_POSTS_SUCCESS, "post.get.posts.success"),
                 entry(PostSuccessStatus.GET_POST_SUCCESS, "post.get.post.success"),
+                entry(PostSuccessStatus.GET_LATEST_POSTS_SUCCESS, "post.get.latest.post.success"),
 
                 entry(PostExceptionStatus.POST_TITLE_BLANK, "post.title.blank"),
                 entry(PostExceptionStatus.POST_CONTENT_BLANK, "post.content.blank"),

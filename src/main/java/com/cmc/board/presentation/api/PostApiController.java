@@ -2,6 +2,7 @@ package com.cmc.board.presentation.api;
 
 import static com.cmc.board.presentation.api.status.PostSuccessStatus.CREATE_POST_SUCCESS;
 import static com.cmc.board.presentation.api.status.PostSuccessStatus.DELETE_POST_SUCCESS;
+import static com.cmc.board.presentation.api.status.PostSuccessStatus.GET_LATEST_POSTS_SUCCESS;
 import static com.cmc.board.presentation.api.status.PostSuccessStatus.GET_POSTS_SUCCESS;
 import static com.cmc.board.presentation.api.status.PostSuccessStatus.UPDATE_POST_SUCCESS;
 
@@ -83,5 +84,13 @@ public class PostApiController implements PostApiControllerDocs {
         PostDto result = postQuery.getPost(postId, viewerId);
         String message = messageSourceHelper.extractMessage(GET_POSTS_SUCCESS);
         return CommonResponse.ok(result, GET_POSTS_SUCCESS, message);
+    }
+
+    @GetMapping("/latest")
+    @PreAuth(value = AuthRole.ANONYMOUS)
+    public CommonResponse<List<PostDto>> getLatestPosts() {
+        List<PostDto> result = postQuery.getLatest();
+        String message = messageSourceHelper.extractMessage(GET_LATEST_POSTS_SUCCESS);
+        return CommonResponse.ok(result, GET_LATEST_POSTS_SUCCESS, message);
     }
 }

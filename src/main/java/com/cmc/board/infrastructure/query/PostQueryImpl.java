@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
@@ -31,18 +32,7 @@ public class PostQueryImpl implements PostQuery {
     @Override
     public List<PostDto> getPosts(Long categoryId) {
         List<PostEntity> posts = findFilteredPosts(categoryId);
-        List<Long> categoryIds = posts.stream().map(PostEntity::getCategoryId).toList();
-        List<Long> authorIds = posts.stream().map(PostEntity::getAuthorId).toList();
-        Map<Long, CategoryDto> categories = categoryQuery.getCategories(categoryIds);
-        Map<Long, UserDto> authors = userQuery.getUsers(authorIds);
-
-        return posts.stream()
-                .map(post -> {
-                    CategoryDto category = categories.get(post.getCategoryId());
-                    UserDto author = authors.get(post.getAuthorId());
-                    return PostDto.of(post, author, category, null);
-                })
-                .toList();
+        return convertToDto(posts);
     }
 
     @Override
@@ -52,6 +42,12 @@ public class PostQueryImpl implements PostQuery {
         CategoryDto category = categoryQuery.getCategory(post.getCategoryId());
         UserDto author = userQuery.getUser(post.getAuthorId());
         return PostDto.of(post, author, category, userId);
+    }
+
+    @Override
+    public List<PostDto> getLatest() {
+        List<PostEntity> posts = postJpaRepository.findTop10ByStatusOrderByIdDesc(PostStatus.PUBLISHED);
+        return convertToDto(posts);
     }
 
     private List<PostEntity> findFilteredPosts(Long categoryId) {
@@ -68,5 +64,20 @@ public class PostQueryImpl implements PostQuery {
         }
         Iterable<PostEntity> results = postJpaRepository.findAll(finalPredicate, sort);
         return StreamSupport.stream(results.spliterator(), false).toList();
+    }
+
+    private @NonNull List<PostDto> convertToDto(List<PostEntity> posts) {
+        List<Long> categoryIds = posts.stream().map(PostEntity::getCategoryId).toList();
+        List<Long> authorIds = posts.stream().map(PostEntity::getAuthorId).toList();
+        Map<Long, CategoryDto> categories = categoryQuery.getCategories(categoryIds);
+        Map<Long, UserDto> authors = userQuery.getUsers(authorIds);
+
+        return posts.stream()
+                .map(post -> {
+                    CategoryDto category = categories.get(post.getCategoryId());
+                    UserDto author = authors.get(post.getAuthorId());
+                    return PostDto.of(post, author, category, null);
+                })
+                .toList();
     }
 }

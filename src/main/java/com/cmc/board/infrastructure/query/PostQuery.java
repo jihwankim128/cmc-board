@@ -8,4 +8,6 @@ public interface PostQuery {
     List<PostDto> getPosts(Long categoryId);
 
     PostDto getPost(Long postId, Long userId);
+
+    List<PostDto> getLatest();
 }

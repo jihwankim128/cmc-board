@@ -10,18 +10,15 @@
     <div class="text-center py-5">
         <h1 class="display-4">CMC 게시판에 오신 것을 환영합니다</h1>
         <p class="lead">자유롭게 게시글을 작성하고 공유해보세요.</p>
-        <div class="mt-4">
-            <a class="btn btn-primary btn-lg me-2" th:href="@{/posts}">게시글 보기</a>
-            <a class="btn btn-outline-primary btn-lg" th:href="@{/posts/write}">글쓰기</a>
-        </div>
     </div>
 
-    <div class="mt-5">
-        <h3>최근 게시글</h3>
-        <div class="list-group">
-            <!-- 추후 구현 -->
-        </div>
+    <div class="mt-0">
+        <div th:replace="~{board/fragments/latest-posts :: latest-posts}"></div>
     </div>
 </div>
+
+<th:block layout:fragment="script">
+    <th:block th:replace="~{board/fragments/latest-posts :: latest-posts-script}"></th:block>
+</th:block>
 </body>
 </html>
