@@ -6,4 +6,6 @@ import java.util.List;
 public interface CategoryQuery {
 
     List<CategoryDto> getCategories();
+
+    CategoryDto getCategory(Long categoryId);
 }

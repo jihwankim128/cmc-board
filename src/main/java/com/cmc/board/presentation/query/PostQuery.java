@@ -6,4 +6,6 @@ import java.util.List;
 public interface PostQuery {
 
     List<PostDto> getPosts();
+
+    PostDto getPost(Long postId, Long userId);
 }

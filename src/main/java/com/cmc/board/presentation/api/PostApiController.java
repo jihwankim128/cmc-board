@@ -13,10 +13,12 @@ import com.cmc.board.presentation.api.dto.post.CreatePostDto;
 import com.cmc.board.presentation.api.dto.post.UpdatePostDto;
 import com.cmc.board.presentation.query.PostQuery;
 import com.cmc.board.presentation.query.dto.PostDto;
+import com.cmc.global.auth.annotation.AuthRole;
 import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
+import jakarta.annotation.Nullable;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -71,5 +73,13 @@ public class PostApiController implements PostApiControllerDocs {
         // 임시 확인용
         String message = messageSourceHelper.extractMessage(GET_POSTS_SUCCESS);
         return CommonResponse.ok(postQuery.getPosts(), GET_POSTS_SUCCESS, message);
+    }
+
+    @GetMapping("/{postId}")
+    @PreAuth(value = AuthRole.ANONYMOUS)
+    public CommonResponse<PostDto> getPost(@PathVariable Long postId, @UserPrincipal @Nullable Long viewerId) {
+        PostDto result = postQuery.getPost(postId, viewerId);
+        String message = messageSourceHelper.extractMessage(GET_POSTS_SUCCESS);
+        return CommonResponse.ok(result, GET_POSTS_SUCCESS, message);
     }
 }
