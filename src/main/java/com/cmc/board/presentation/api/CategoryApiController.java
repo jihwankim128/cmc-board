@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 public class CategoryApiController implements CategoryApiControllerDocs {
 
     private final CreateCategoryUseCase createUseCase;

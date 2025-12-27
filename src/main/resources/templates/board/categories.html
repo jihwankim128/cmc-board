@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>카테고리 관리</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>카테고리 관리</h2>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>새 카테고리 추가</h5>
+            <form class="row g-3" id="create-form">
+                <div class="col-auto">
+                    <input class="form-control" id="category-name" placeholder="카테고리 이름"
+                           required type="text">
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" type="submit">추가</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5>카테고리 목록</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>수정</th>
+                </tr>
+                </thead>
+                <tbody id="category-list"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function () {
+            loadCategories();
+        });
+
+        function loadCategories() {
+            $.get('/api/categories', function (response) {
+                const categories = response.data;
+                const rows = categories.map(cat => `
+            <tr>
+                <td>${cat.id}</td>
+                <td>
+                    <span class="category-name-${cat.id}">${cat.name}</span>
+                    <input type="text" class="form-control form-control-sm category-edit-${cat.id}"
+                           value="${cat.name}" style="display:none;">
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-warning edit-btn" data-id="${cat.id}">수정</button>
+                    <button class="btn btn-sm btn-success save-btn" data-id="${cat.id}" style="display:none;">저장</button>
+                    <button class="btn btn-sm btn-secondary cancel-btn" data-id="${cat.id}" style="display:none;">취소</button>
+                </td>
+            </tr>
+        `).join('');
+                $('#category-list').html(rows);
+            });
+        }
+
+        $('#create-form').submit(function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: '/api/categories',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: $('#category-name').val()
+                }),
+                success: function () {
+                    alert('카테고리가 추가되었습니다.');
+                    $('#category-name').val('');
+                    loadCategories();
+                },
+                error: function (xhr) {
+                    alert('추가 실패: ' + xhr.responseJSON.message);
+                }
+            });
+        });
+
+        $(document).on('click', '.edit-btn', function () {
+            const id = $(this).data('id');
+            $(`.category-name-${id}`).hide();
+            $(`.category-edit-${id}`).show();
+            $(this).hide();
+            $(`.save-btn[data-id="${id}"]`).show();
+            $(`.cancel-btn[data-id="${id}"]`).show();
+        });
+
+        $(document).on('click', '.cancel-btn', function () {
+            const id = $(this).data('id');
+            $(`.category-name-${id}`).show();
+            $(`.category-edit-${id}`).hide();
+            $(`.edit-btn[data-id="${id}"]`).show();
+            $(this).hide();
+            $(`.save-btn[data-id="${id}"]`).hide();
+        });
+
+        $(document).on('click', '.save-btn', function () {
+            const id = $(this).data('id');
+            const newName = $(`.category-edit-${id}`).val();
+
+            $.ajax({
+                url: `/api/categories/${id}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    name: newName
+                }),
+                success: function () {
+                    alert('카테고리가 수정되었습니다.');
+                    loadCategories();
+                },
+                error: function (xhr) {
+                    alert('수정 실패: ' + xhr.responseJSON.message);
+                }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
