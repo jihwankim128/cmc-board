@@ -15,6 +15,8 @@ import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Expressions;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -36,11 +38,12 @@ public class PostQueryImpl implements PostQuery {
     }
 
     @Override
-    public PostDto getPost(Long postId, Long userId) {
+    public PostDto getPosts(Long postId, Long userId) {
         PostEntity post = postJpaRepository.findByIdAndStatus(postId, PostStatus.PUBLISHED)
                 .orElseThrow(PostNotFoundException::new);
         CategoryDto category = categoryQuery.getCategory(post.getCategoryId());
         UserDto author = userQuery.getUser(post.getAuthorId());
+
         return PostDto.of(post, author, category, userId);
     }
 
@@ -48,6 +51,13 @@ public class PostQueryImpl implements PostQuery {
     public List<PostDto> getLatest() {
         List<PostEntity> posts = postJpaRepository.findTop10ByStatusOrderByIdDesc(PostStatus.PUBLISHED);
         return convertToDto(posts);
+    }
+
+    @Override
+    public Map<Long, PostDto> getPosts(List<Long> postIds) {
+        List<PostEntity> posts = postJpaRepository.findAllById(postIds);
+        List<PostDto> dto = convertToDto(posts);
+        return dto.stream().collect(Collectors.toMap(PostDto::getId, Function.identity()));
     }
 
     private List<PostEntity> findFilteredPosts(Long categoryId) {

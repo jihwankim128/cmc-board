@@ -9,6 +9,7 @@ import static com.cmc.board.presentation.api.status.PostSuccessStatus.UPDATE_POS
 import com.cmc.board.application.port.in.CreatePostUseCase;
 import com.cmc.board.application.port.in.DeletePostUseCase;
 import com.cmc.board.application.port.in.UpdatePostUseCase;
+import com.cmc.board.infrastructure.query.BookmarkQuery;
 import com.cmc.board.infrastructure.query.PostQuery;
 import com.cmc.board.infrastructure.query.dto.PostDto;
 import com.cmc.board.presentation.api.docs.PostApiControllerDocs;
@@ -42,6 +43,7 @@ public class PostApiController implements PostApiControllerDocs {
     private final UpdatePostUseCase updateUseCase;
     private final DeletePostUseCase deleteUseCase;
     private final PostQuery postQuery;
+    private final BookmarkQuery bookmarkQuery;
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
@@ -81,7 +83,8 @@ public class PostApiController implements PostApiControllerDocs {
     @GetMapping("/{postId}")
     @PreAuth(value = AuthRole.ANONYMOUS)
     public CommonResponse<PostDto> getPost(@PathVariable Long postId, @UserPrincipal @Nullable Long viewerId) {
-        PostDto result = postQuery.getPost(postId, viewerId);
+        PostDto result = postQuery.getPosts(postId, viewerId);
+        result.setBookmarked(bookmarkQuery.isBookmarked(postId, viewerId)); // TODO: 나중에 Post 책임으로 완전히 빼기
         String message = messageSourceHelper.extractMessage(GET_POSTS_SUCCESS);
         return CommonResponse.ok(result, GET_POSTS_SUCCESS, message);
     }
