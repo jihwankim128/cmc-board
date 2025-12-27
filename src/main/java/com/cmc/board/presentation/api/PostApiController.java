@@ -13,7 +13,7 @@ import com.cmc.board.presentation.api.dto.post.CreatePostDto;
 import com.cmc.board.presentation.api.dto.post.UpdatePostDto;
 import com.cmc.board.presentation.query.PostQuery;
 import com.cmc.board.presentation.query.dto.PostDto;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;

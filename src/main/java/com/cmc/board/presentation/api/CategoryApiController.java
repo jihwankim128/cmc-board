@@ -11,7 +11,8 @@ import com.cmc.board.presentation.api.dto.category.CreateCategoryDto;
 import com.cmc.board.presentation.api.dto.category.UpdateCategoryDto;
 import com.cmc.board.presentation.query.CategoryQuery;
 import com.cmc.board.presentation.query.dto.CategoryDto;
-import com.cmc.global.auth.AdminPrincipal;
+import com.cmc.global.auth.annotation.AuthRole;
+import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
 import jakarta.validation.Valid;
@@ -36,7 +37,7 @@ public class CategoryApiController implements CategoryApiControllerDocs {
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
-    @AdminPrincipal
+    @PreAuth(value = AuthRole.ADMIN)
     public CommonResponse<Long> create(@RequestBody @Valid CreateCategoryDto dto) {
         String message = messageSourceHelper.extractMessage(CREATE_CATEGORY_SUCCESS);
         Long result = createUseCase.create(dto.name());
@@ -44,7 +45,7 @@ public class CategoryApiController implements CategoryApiControllerDocs {
     }
 
     @PutMapping("/{categoryId}")
-    @AdminPrincipal
+    @PreAuth(value = AuthRole.ADMIN)
     public CommonResponse<Void> update(@PathVariable Long categoryId, @RequestBody @Valid UpdateCategoryDto dto) {
         String message = messageSourceHelper.extractMessage(UPDATE_CATEGORY_SUCCESS);
         updateUseCase.update(dto.toCommand(categoryId));
@@ -52,6 +53,7 @@ public class CategoryApiController implements CategoryApiControllerDocs {
     }
 
     @GetMapping
+    @PreAuth(value = AuthRole.ANONYMOUS)
     public CommonResponse<List<CategoryDto>> getCategories() {
         String message = messageSourceHelper.extractMessage(GET_CATEGORIES_SUCCESS);
         List<CategoryDto> result = categoryQuery.getCategories();

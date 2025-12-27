@@ -1,7 +1,7 @@
 package com.cmc.global.docs;
 
-import com.cmc.global.auth.AdminPrincipal;
-import com.cmc.global.auth.UserPrincipal;
+import com.cmc.global.auth.annotation.PreAuth;
+import com.cmc.global.auth.annotation.UserPrincipal;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.servers.Server;
@@ -29,7 +29,7 @@ public class SwaggerConfig {
     public ParameterCustomizer parameterCustomizer() {
         return (parameterModel, methodParameter) -> {
             if (methodParameter.hasParameterAnnotation(UserPrincipal.class) ||
-                    methodParameter.hasParameterAnnotation(AdminPrincipal.class)) {
+                    methodParameter.hasParameterAnnotation(PreAuth.class)) {
                 return null;
             }
             return parameterModel;

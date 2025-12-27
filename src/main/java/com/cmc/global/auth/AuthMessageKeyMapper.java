@@ -11,7 +11,7 @@ public class AuthMessageKeyMapper implements MessageKeyMapper {
     @Override
     public Map<StatusCode, String> getMessageKeys() {
         return Map.of(
-                AuthExceptionStatus.ADMIN_AUTHORITY, "auth.not.admin",
+                AuthExceptionStatus.HAS_NOT_AUTHORITY, "auth.not.admin",
                 AuthExceptionStatus.UN_AUTHENTICATED, "auth.un.authenticated"
         );
     }
