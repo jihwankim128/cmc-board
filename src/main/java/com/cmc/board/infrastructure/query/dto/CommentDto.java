@@ -1,4 +1,4 @@
-package com.cmc.board.presentation.query.dto;
+package com.cmc.board.infrastructure.query.dto;
 
 import com.cmc.board.domain.comment.CommentStatus;
 import io.swagger.v3.oas.annotations.media.Schema;

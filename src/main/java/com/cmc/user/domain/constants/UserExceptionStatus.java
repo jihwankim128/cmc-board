@@ -7,5 +7,6 @@ public enum UserExceptionStatus implements StatusCode {
     USER_NICKNAME_OUT_OF_RANGE,
     USER_EMAIL_INVALID,
     USER_ACCOUNT_INVALID,
-    USER_ACCOUNT_DUPLICATED
+    USER_ACCOUNT_DUPLICATED,
+    USER_NOT_FOUND
 }

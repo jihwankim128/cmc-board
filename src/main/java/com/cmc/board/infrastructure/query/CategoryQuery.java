@@ -1,6 +1,6 @@
-package com.cmc.board.presentation.query;
+package com.cmc.board.infrastructure.query;
 
-import com.cmc.board.presentation.query.dto.CategoryDto;
+import com.cmc.board.infrastructure.query.dto.CategoryDto;
 import java.util.List;
 import java.util.Map;
 

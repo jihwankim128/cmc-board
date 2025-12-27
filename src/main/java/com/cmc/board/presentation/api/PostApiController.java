@@ -8,11 +8,11 @@ import static com.cmc.board.presentation.api.status.PostSuccessStatus.UPDATE_POS
 import com.cmc.board.application.port.in.CreatePostUseCase;
 import com.cmc.board.application.port.in.DeletePostUseCase;
 import com.cmc.board.application.port.in.UpdatePostUseCase;
+import com.cmc.board.infrastructure.query.PostQuery;
+import com.cmc.board.infrastructure.query.dto.PostDto;
 import com.cmc.board.presentation.api.docs.PostApiControllerDocs;
 import com.cmc.board.presentation.api.dto.post.CreatePostDto;
 import com.cmc.board.presentation.api.dto.post.UpdatePostDto;
-import com.cmc.board.presentation.query.PostQuery;
-import com.cmc.board.presentation.query.dto.PostDto;
 import com.cmc.global.auth.annotation.AuthRole;
 import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.auth.annotation.UserPrincipal;

@@ -6,11 +6,11 @@ import static com.cmc.board.presentation.api.status.CategorySuccessStatus.UPDATE
 
 import com.cmc.board.application.port.in.CreateCategoryUseCase;
 import com.cmc.board.application.port.in.UpdateCategoryUseCase;
+import com.cmc.board.infrastructure.query.CategoryQuery;
+import com.cmc.board.infrastructure.query.dto.CategoryDto;
 import com.cmc.board.presentation.api.docs.CategoryApiControllerDocs;
 import com.cmc.board.presentation.api.dto.category.CreateCategoryDto;
 import com.cmc.board.presentation.api.dto.category.UpdateCategoryDto;
-import com.cmc.board.presentation.query.CategoryQuery;
-import com.cmc.board.presentation.query.dto.CategoryDto;
 import com.cmc.global.auth.annotation.AuthRole;
 import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.common.dto.CommonResponse;

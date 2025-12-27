@@ -66,7 +66,7 @@
                     $('#post-category-link').attr('href', `/posts?categoryId=${post.category.id}`);
                     $('#post-title').text(post.title);
                     $('#post-content').text(post.content);
-                    $('#post-author').text('작성자 #' + post.authorId);
+                    $('#post-author').text('작성자: ' + post.author.nickname);
                     $('#post-date').text(formatDate(post.createdAt));
 
                     if (post.modified) {

@@ -1,6 +1,7 @@
-package com.cmc.board.presentation.query.dto;
+package com.cmc.board.infrastructure.query.dto;
 
 import com.cmc.board.infrastructure.database.jpa.entity.PostEntity;
+import com.cmc.user.application.query.UserDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
 import lombok.AllArgsConstructor;
@@ -13,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class PostDto {
     @Schema(description = "게시글 식별자", example = "1L")
     Long id;
-    @Schema(description = "게시글 작성자 식별자", example = "1L")
-    Long authorId;
-    @Schema(description = "게시글 카테고리 식별자", example = "1L")
+    @Schema(description = "게시글 작성자 정보")
+    UserDto author;
+    @Schema(description = "게시글 카테고리 정보")
     CategoryDto category;
     @Schema(description = "게시글 제목", example = "새로운 게시글")
     String title;
@@ -28,10 +29,10 @@ public class PostDto {
     @Schema(description = "게시글 수정 여부")
     Boolean modified;
 
-    public static PostDto of(PostEntity post, CategoryDto category, Long userId) {
+    public static PostDto of(PostEntity post, UserDto author, CategoryDto category, Long userId) {
         return new PostDto(
                 post.getId(),
-                post.getAuthorId(),
+                author,
                 category,
                 post.getTitle(),
                 post.getContent(),

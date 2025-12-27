@@ -1,6 +1,6 @@
-package com.cmc.board.presentation.query;
+package com.cmc.board.infrastructure.query;
 
-import com.cmc.board.presentation.query.dto.PostDto;
+import com.cmc.board.infrastructure.query.dto.PostDto;
 import java.util.List;
 
 public interface PostQuery {

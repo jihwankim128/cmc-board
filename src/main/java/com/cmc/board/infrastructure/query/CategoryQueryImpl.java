@@ -1,9 +1,8 @@
-package com.cmc.board.infrastructure.database.query;
+package com.cmc.board.infrastructure.query;
 
 import com.cmc.board.domain.exception.CategoryNotFoundException;
 import com.cmc.board.infrastructure.database.jpa.CategoryJpaRepository;
-import com.cmc.board.presentation.query.CategoryQuery;
-import com.cmc.board.presentation.query.dto.CategoryDto;
+import com.cmc.board.infrastructure.query.dto.CategoryDto;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

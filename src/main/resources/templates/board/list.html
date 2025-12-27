@@ -92,7 +92,7 @@
                         </div>
                         <p class="mb-1 text-truncate">${post.content}</p>
                         <small class="text-muted">
-                            <i class="bi bi-person"></i> 작성자 #${post.authorId}
+                            <i class="bi bi-person"></i> 작성자: ${post.author.nickname}
                             <span class="mx-2">•</span>
                             <i class="bi bi-clock"></i> ${formatDate(post.createdAt)}
                         </small>
