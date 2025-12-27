@@ -55,7 +55,6 @@
         const isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         $(document).ready(function() {
             loadPost();
-            loadComments();
         });
 
         function loadPost() {
@@ -138,7 +137,10 @@
             });
         });
     </script>
-    <script th:src="@{/js/comments.js}"></script>
+    <script th:src="@{/js/comments/commentApi.js}"></script>
+    <script th:src="@{/js/comments/commentRender.js}"></script>
+    <script th:src="@{/js/comments/commentAuth.js}"></script>
+    <script th:src="@{/js/comments/commentUi.js}"></script>
 </th:block>
 </body>
 </html>
