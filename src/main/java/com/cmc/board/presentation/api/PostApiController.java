@@ -13,6 +13,7 @@ import com.cmc.board.presentation.api.dto.post.CreatePostDto;
 import com.cmc.board.presentation.api.dto.post.UpdatePostDto;
 import com.cmc.board.presentation.query.PostQuery;
 import com.cmc.board.presentation.query.dto.PostDto;
+import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/posts")
+@RequestMapping("/api/posts")
 public class PostApiController implements PostApiControllerDocs {
 
     private final CreatePostUseCase createUseCase;
@@ -40,6 +41,7 @@ public class PostApiController implements PostApiControllerDocs {
     private final MessageSourceHelper messageSourceHelper;
 
     @PostMapping
+    @PreAuth
     public CommonResponse<Long> create(@RequestBody @Valid CreatePostDto dto, @UserPrincipal Long authorId) {
         Long result = createUseCase.create(dto.toCommand(authorId));
         String message = messageSourceHelper.extractMessage(CREATE_POST_SUCCESS);
@@ -47,6 +49,7 @@ public class PostApiController implements PostApiControllerDocs {
     }
 
     @PutMapping("/{postId}")
+    @PreAuth
     public CommonResponse<Void> update(@PathVariable Long postId,
                                        @RequestBody @Valid UpdatePostDto dto,
                                        @UserPrincipal Long authorId) {
@@ -56,6 +59,7 @@ public class PostApiController implements PostApiControllerDocs {
     }
 
     @DeleteMapping("/{postId}")
+    @PreAuth
     public CommonResponse<Void> delete(@PathVariable Long postId, @UserPrincipal Long authorId) {
         deleteUseCase.delete(postId, authorId);
         String message = messageSourceHelper.extractMessage(DELETE_POST_SUCCESS);

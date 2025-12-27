@@ -13,6 +13,12 @@ public class BoardWebController {
         return "index";
     }
 
+    @GetMapping("/posts/write")
+    @PreAuth
+    public String posts() {
+        return "board/write";
+    }
+
     @GetMapping("/categories")
     @PreAuth(value = AuthRole.ADMIN)
     public String categories() {
