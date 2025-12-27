@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface CommentQuery {
 
-    List<CommentDto> getComments();
+    List<CommentDto> getComments(Long postId, Long userId);
 }
