@@ -40,6 +40,8 @@
         </div>
     </div>
 
+    <div th:replace="~{board/fragments/comments :: comments-section}"></div>
+
     <div class="mt-3">
         <a th:href="@{/posts}" class="btn btn-secondary">
             <i class="bi bi-list"></i> 목록으로
@@ -50,8 +52,10 @@
 <th:block layout:fragment="script">
     <script th:inline="javascript">
         const postId = [[${postId}]];
+        const isAuthenticated = [[${#authorization.expression('isAuthenticated()')}]];
         $(document).ready(function() {
             loadPost();
+            loadComments();
         });
 
         function loadPost() {
@@ -134,6 +138,7 @@
             });
         });
     </script>
+    <script th:src="@{/js/comments.js}"></script>
 </th:block>
 </body>
 </html>
