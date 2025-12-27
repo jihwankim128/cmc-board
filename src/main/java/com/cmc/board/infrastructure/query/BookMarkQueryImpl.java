@@ -1,8 +1,7 @@
-package com.cmc.board.infrastructure.database.query;
+package com.cmc.board.infrastructure.query;
 
 import com.cmc.board.infrastructure.database.jpa.BookmarkJpaRepository;
-import com.cmc.board.presentation.query.BookmarkQuery;
-import com.cmc.board.presentation.query.dto.BookmarkDto;
+import com.cmc.board.infrastructure.query.dto.BookmarkDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

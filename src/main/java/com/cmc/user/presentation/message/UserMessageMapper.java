@@ -21,7 +21,8 @@ public class UserMessageMapper implements MessageKeyMapper {
                 entry(UserExceptionStatus.USER_NICKNAME_OUT_OF_RANGE, "user.nickname.outOfRange"),
                 entry(UserExceptionStatus.USER_EMAIL_INVALID, "user.email.invalid"),
                 entry(UserExceptionStatus.USER_ACCOUNT_INVALID, "user.account.invalid"),
-                entry(UserExceptionStatus.USER_ACCOUNT_DUPLICATED, "user.account.duplicated")
+                entry(UserExceptionStatus.USER_ACCOUNT_DUPLICATED, "user.account.duplicated"),
+                entry(UserExceptionStatus.USER_NOT_FOUND, "user.not.found")
         );
     }
 }

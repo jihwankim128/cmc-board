@@ -24,6 +24,9 @@ public class UserPrincipalArgumentResolver implements HandlerMethodArgumentResol
     @Override
     public @Nullable Object resolveArgument(MethodParameter parameter, @Nullable ModelAndViewContainer mavContainer,
                                             NativeWebRequest webRequest, @Nullable WebDataBinderFactory binderFactory) {
+        if (authorizationHelper.isAnonymous()) {
+            return null;
+        }
         return authorizationHelper.getCurrentUserId();
     }
 }

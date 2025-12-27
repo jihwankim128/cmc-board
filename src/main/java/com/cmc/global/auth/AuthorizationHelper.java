@@ -4,5 +4,5 @@ public interface AuthorizationHelper {
 
     Long getCurrentUserId();
 
-    boolean isAdmin();
+    boolean isAnonymous();
 }

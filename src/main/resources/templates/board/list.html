@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/default}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시글 목록</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>게시글 목록</h2>
+        <a class="btn btn-primary" th:href="@{/posts/write}">
+            <i class="bi bi-pencil"></i> 글쓰기
+        </a>
+    </div>
+
+    <div class="mb-3">
+        <div class="btn-group" role="group">
+            <button class="btn btn-outline-primary category-filter active" data-category="" type="button">
+                전체
+            </button>
+        </div>
+    </div>
+
+    <div class="list-group" id="posts-list"></div>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        let currentCategoryId = null;
+
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentCategoryId = urlParams.get('categoryId');
+
+            loadCategories();
+            loadPosts();
+        });
+
+        function loadCategories() {
+            $.get('/api/categories', function (response) {
+                const categories = response.data;
+                const buttons = categories.map(category => `
+            <button type="button" class="btn btn-outline-primary category-filter" data-category="${category.id}">
+                ${category.name}
+            </button>
+        `).join('');
+                $('.btn-group').append(buttons);
+
+                if (currentCategoryId) {
+                    $(`.category-filter[data-category="${currentCategoryId}"]`).addClass('active');
+                    $(`.category-filter[data-category=""]`).removeClass('active');
+                }
+            });
+        }
+
+        $(document).on('click', '.category-filter', function () {
+            $('.category-filter').removeClass('active');
+            $(this).addClass('active');
+
+            currentCategoryId = $(this).data('category');
+            loadPosts();
+        });
+
+        function loadPosts() {
+            let url = '/api/posts';
+            if (currentCategoryId) {
+                url += `?categoryId=${currentCategoryId}`;
+            }
+
+            $.get(url, function (response) {
+                const posts = response.data;
+                console.log(posts);
+
+                if (posts.length === 0) {
+                    $('#posts-list').html(`
+                <div class="text-center py-5 text-muted">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p class="mt-3">게시글이 없습니다.</p>
+                </div>
+            `);
+                    return;
+                }
+
+                const postsHtml = posts.map(post => `
+            <a href="/posts/${post.id}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between align-items-start">
+                    <div class="flex-grow-1">
+                        <div class="mb-1">
+                            <span class="badge bg-secondary me-2">${post.category.name}</span>
+                            <h5 class="d-inline mb-1">${post.title}</h5>
+                        </div>
+                        <p class="mb-1 text-truncate">${post.content}</p>
+                        <small class="text-muted">
+                            <i class="bi bi-person"></i> 작성자: ${post.author.nickname}
+                            <span class="mx-2">•</span>
+                            <i class="bi bi-clock"></i> ${formatDate(post.createdAt)}
+                        </small>
+                    </div>
+                </div>
+            </a>
+        `).join('');
+                $('#posts-list').html(postsHtml);
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ko-KR');
+        }
+    </script>
+</th:block>
+</body>
+</html>

@@ -25,4 +25,8 @@ public abstract class TimeBaseEntity {
     @Column
     @LastModifiedDate
     private Instant modifiedAt;
+
+    public boolean isModified() {
+        return !createdAt.equals(modifiedAt);
+    }
 }
