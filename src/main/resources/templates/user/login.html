@@ -59,7 +59,9 @@
                     password: $('#password').val()
                 }),
                 success: function () {
-                    location.href = '/';
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const redirect = urlParams.get('redirect');
+                    location.href = redirect || '/';
                 },
                 error: function (xhr) {
                     const message = xhr.responseJSON?.message || '로그인에 실패했습니다.';

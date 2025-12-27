@@ -3,6 +3,7 @@ package com.cmc.global.auth.filter;
 import com.cmc.global.auth.AuthExceptionStatus;
 import com.cmc.global.auth.annotation.AuthRole;
 import com.cmc.global.auth.annotation.PreAuth;
+import com.cmc.global.common.exception.BaseException;
 import com.cmc.global.common.exception.client.ForbiddenException;
 import com.cmc.global.common.exception.client.UnAuthorizedException;
 import jakarta.servlet.FilterChain;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.HandlerExecutionChain;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class PreAuthFilter extends OncePerRequestFilter {
 
     private final RequestMappingHandlerMapping handlerMapping;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     private static boolean hasPermission(Set<AuthRole> requiredRoles, Authentication auth) {
         return auth.getAuthorities().stream()
@@ -71,8 +74,41 @@ public class PreAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        checkAuthority(preAuth);
-        filterChain.doFilter(request, response);
+        try {
+            checkAuthority(preAuth);
+            filterChain.doFilter(request, response);
+        } catch (UnAuthorizedException | ForbiddenException e) {
+            handleAuthorityException(request, response, handlerChain, e);
+        }
+    }
+
+    private void handleAuthorityException(HttpServletRequest request, HttpServletResponse response,
+                                          HandlerExecutionChain handlerChain, BaseException e) throws IOException {
+        if (isViewRequest(handlerChain)) {
+            handleViewError(request, response, e);
+            return;
+        }
+        handlerExceptionResolver.resolveException(request, response, null, e);
+    }
+
+    private void handleViewError(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            BaseException e
+    ) throws IOException {
+        if (e instanceof UnAuthorizedException) {
+            response.sendRedirect("/login?redirect=" + request.getRequestURI());
+            return;
+        }
+        response.sendRedirect("/error/403");
+    }
+
+    private boolean isViewRequest(HandlerExecutionChain handlerChain) {
+        if (handlerChain.getHandler() instanceof HandlerMethod handlerMethod) {
+            Class<?> returnType = handlerMethod.getMethod().getReturnType();
+            return String.class.equals(returnType);
+        }
+        return false;
     }
 
     private PreAuth extractPreAuth(HandlerExecutionChain handlerChain) {
