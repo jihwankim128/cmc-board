@@ -41,4 +41,11 @@ public class BoardWebController {
         model.addAttribute("categoryId", categoryId);
         return "board/list";
     }
+
+    @GetMapping("/posts/{postId}/edit")
+    @PreAuth(AuthRole.USER)
+    public String editForm(@PathVariable Long postId, Model model) {
+        model.addAttribute("postId", postId);
+        return "board/edit";
+    }
 }
