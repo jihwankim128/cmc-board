@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>게시글 상세</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="mb-2">
+                <a href="#" id="post-category-link" class="text-decoration-none">
+                    <span class="badge bg-secondary" id="post-category"></span>
+                </a>
+            </div>
+
+            <h2 id="post-title" class="mb-3"></h2>
+            <div class="d-flex justify-content-between align-items-center text-muted mb-3">
+                <div>
+                    <small>
+                        <i class="bi bi-person"></i> <span id="post-author"></span>
+                        <span class="mx-2">•</span>
+                        <i class="bi bi-clock"></i> <span id="post-date"></span>
+                        <span id="post-modified-badge" class="badge bg-info ms-2" style="display:none;">수정됨</span>
+                    </small>
+                </div>
+                <div id="post-actions" style="display:none;">
+                    <a th:href="@{/posts/{id}/edit(id=${postId})}" class="btn btn-sm btn-warning">
+                        <i class="bi bi-pencil"></i> 수정
+                    </a>
+                    <button class="btn btn-sm btn-danger" id="delete-btn">
+                        <i class="bi bi-trash"></i> 삭제
+                    </button>
+                </div>
+            </div>
+
+            <hr>
+            <div id="post-content" class="mt-4" style="white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <a th:href="@{/posts}" class="btn btn-secondary">
+            <i class="bi bi-list"></i> 목록으로
+        </a>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        const postId = [[${postId}]];
+        $(document).ready(function() {
+            loadPost();
+        });
+
+        function loadPost() {
+            $.ajax({
+                url: `/api/posts/${postId}`,
+                method: 'GET',
+                success: function(response) {
+                    const post = response.data;
+                    console.log(post);
+
+                    $('#post-category').text(post.category.name);
+                    $('#post-category-link').attr('href', `/posts?categoryId=${post.category.id}`);
+                    $('#post-title').text(post.title);
+                    $('#post-content').text(post.content);
+                    $('#post-author').text('작성자 #' + post.authorId);
+                    $('#post-date').text(formatDate(post.createdAt));
+
+                    if (post.modified) {
+                        $('#post-modified-badge').show();
+                    }
+
+                    if (post.authorMe) {
+                        $('#post-actions').show();
+                    }
+                },
+                error: function(xhr) {
+                    handlePostLoadError(xhr);
+                }
+            });
+        }
+
+        function handlePostLoadError(xhr) {
+            if (xhr.status === 404) {
+                location.href = '/error/404';
+            } else if (xhr.status >= 500) {
+                location.href = '/error/500';
+            } else {
+                alert('게시글을 불러올 수 없습니다.');
+                location.href = '/posts';
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+
+            if (diff < 24 * 60 * 60 * 1000) {
+                const hours = Math.floor(diff / (60 * 60 * 1000));
+                if (hours < 1) {
+                    const minutes = Math.floor(diff / (60 * 1000));
+                    return `${minutes}분 전`;
+                }
+                return `${hours}시간 전`;
+            }
+
+            if (diff < 7 * 24 * 60 * 60 * 1000) {
+                const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+                return `${days}일 전`;
+            }
+
+            return date.toLocaleDateString('ko-KR');
+        }
+
+        $('#delete-btn').click(function() {
+            if (!confirm('게시글을 삭제하시겠습니까?')) {
+                return;
+            }
+
+            $.ajax({
+                url: `/posts/${postId}`,
+                method: 'DELETE',
+                success: function() {
+                    alert('게시글이 삭제되었습니다.');
+                    location.href = '/posts';
+                },
+                error: function(xhr) {
+                    alert('삭제 실패: ' + (xhr.responseJSON?.message || '알 수 없는 오류'));
+                }
+            });
+        });
+    </script>
+</th:block>
+</body>
+</html>
