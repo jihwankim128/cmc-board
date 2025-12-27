@@ -1,6 +1,7 @@
 package com.cmc.board.infrastructure.database.query;
 
 import com.cmc.board.domain.exception.PostNotFoundException;
+import com.cmc.board.domain.post.PostStatus;
 import com.cmc.board.infrastructure.database.jpa.PostJpaRepository;
 import com.cmc.board.infrastructure.database.jpa.entity.PostEntity;
 import com.cmc.board.presentation.query.CategoryQuery;
@@ -37,7 +38,8 @@ public class PostQueryImpl implements PostQuery {
 
     @Override
     public PostDto getPost(Long postId, Long userId) {
-        PostEntity post = postJpaRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        PostEntity post = postJpaRepository.findByIdAndStatus(postId, PostStatus.PUBLISHED)
+                .orElseThrow(PostNotFoundException::new);
         CategoryDto category = categoryQuery.getCategory(post.getCategoryId());
         return PostDto.of(post, category, userId);
     }
