@@ -8,6 +8,7 @@ import com.cmc.board.infrastructure.query.BookmarkQuery;
 import com.cmc.board.infrastructure.query.dto.BookmarkDto;
 import com.cmc.board.presentation.api.docs.BookmarkApiControllerDocs;
 import com.cmc.board.presentation.api.dto.bookmark.CreateBookmarkDto;
+import com.cmc.global.auth.annotation.PreAuth;
 import com.cmc.global.auth.annotation.UserPrincipal;
 import com.cmc.global.common.dto.CommonResponse;
 import com.cmc.global.web.message.MessageSourceHelper;
@@ -47,6 +48,7 @@ public class BookmarkApiController implements BookmarkApiControllerDocs {
     }
 
     @GetMapping
+    @PreAuth
     public CommonResponse<List<BookmarkDto>> getBookmarks() {
         String message = messageSourceHelper.extractMessage(GET_BOOKMARKS_SUCCESS);
         return CommonResponse.ok(bookmarkQuery.getBookmarks(), GET_BOOKMARKS_SUCCESS, message);

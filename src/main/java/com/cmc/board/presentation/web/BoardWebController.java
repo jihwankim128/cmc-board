@@ -48,4 +48,10 @@ public class BoardWebController {
         model.addAttribute("postId", postId);
         return "board/edit";
     }
+
+    @GetMapping("/bookmarks")
+    @PreAuth(AuthRole.USER)
+    public String bookmarks() {
+        return "board/bookmarks";
+    }
 }
